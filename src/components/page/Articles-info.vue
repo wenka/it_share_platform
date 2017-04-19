@@ -7,16 +7,28 @@
             </el-breadcrumb>
         </div>
         <div class="ms-doc">
-            <h3>{{title}}</h3>
+            <h3>文章内容</h3>
             <div class="visit-number"><el-button type="primary" >访客量：100</el-button></div>
             <article style="text-indent: 35px;">
-                {{content}}
+                <h1>{{title}}</h1>
+                <h2>文章副标题</h2>
+                <p>{{content}}</p>
                 <div class="acticle-share">
                     <el-button type="primary" icon="share" size="mini" class="share-button">  分享</el-button>
                 </div>
             </article>
         </div>
         <!-- 文章内容结束 -->
+        <!--  标签开始 -->
+        <div class="ms-doc">
+          <h4>标签</h4>
+          <article>
+            <div class="acticle-tags">
+              <el-tag  v-for="tag in tags" class="tag" type="primary">{{tag.name}}</el-tag >
+            </div>
+          </article>
+        </div>
+        <!-- 标签结束 -->
         <!-- 打赏开始 -->
         <div class="ms-doc ms-pay">
           <h4>打赏</h4>
@@ -46,7 +58,6 @@
         <div class="ms-doc">
             <h4>所有评论</h4>
             <article>
-
               <div class="comments">
                 <div class="comments-tip">
                     <img src="../../../static/img/img.jpg" class="image">
@@ -90,7 +101,7 @@
                   <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" placeholder="请输入评论内容" ></el-input>
                 </div>
                 <div>
-                  <el-button type="success" size="mini" class="send">发送</el-button>
+                  <el-button type="success" size="mini" class="send" @click="send">发送</el-button>
                 </div>
               </div>
             </article>
@@ -108,7 +119,25 @@
                 acticleTitle: '',
                 acticleAuthor: ''
               },
-              active: false
+              active: false,
+              tags: [
+                 { name: '标签一', type: '' },
+                 { name: '标签二', type: 'gray' },
+                 { name: '标签三', type: 'primary' },
+                 { name: '标签四', type: 'success' },
+                 { name: '标签五', type: 'warning' },
+                 { name: '标签六', type: 'danger' },
+                 { name: '标签七', type: 'warning' },
+                 { name: '标签八', type: 'warning' },
+                 { name: '标签九', type: 'warning' },
+                 { name: '标签十', type: 'warning' },
+                 { name: '标签十一', type: 'warning' },
+                 { name: '标签十二', type: 'warning' },
+                 { name: '标签十三', type: 'warning' },
+                 { name: '标签十四', type: 'warning' },
+                 { name: '标签十五', type: 'warning' },
+                 { name: '标签十六', type: 'warning' }
+              ]
             }
         },
         computed :{
@@ -129,22 +158,40 @@
             }else {
               this.active = true;
             }
+          },
+          send(){
+            this.$message({
+               message: '评论成功',
+               type: 'success'
+             });
           }
         }
     }
 </script>
 
 <style scoped>
+    .tag {
+        margin: 5px;
+        border-radius: 8px;
+    }
+
+    .acticle-tags {
+      width: 100%;
+      text-align: center;
+      line-height: 35px;
+    }
+
     .share-button {
       float: right;
       background-color: #F7BA2A;
+      width: 10%;
+      height: 100%;
     }
 
     .acticle-share {
       width: 100%;
-      text-align: center;
-      padding-bottom: 5px;
-      margin-bottom: 0px;
+      height: auto;
+      margin-bottom: 30px;
     }
 
     .pay-image {

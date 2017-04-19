@@ -21,6 +21,28 @@
           </div>
         </div>
       </el-card>
+
+      <el-card>
+        <div class="author">
+          <img src="../../../static/img/img.jpg" class="image">
+          <div class="author-content">
+            <span class="el-icon-star-on"> 作者</span>
+            <div class="author-name">
+              {{acticle.articleAuthor}}
+            </div>
+          </div>
+        </div>
+        <div class="article">
+          <div class="title"><h3>{{acticle.articleTitle}}</h3></div>
+          <p class="main-content">
+            {{acticle.articleContent}}
+          </p>
+          <div class="acticle-bottom">
+            <!-- <time>{{ currentDate }}</time> -->
+            <el-button class="button" :plain="true" type="info" size="mini" @click="viewMore()"><span class="el-icon-more"> 更多</span></el-button>
+          </div>
+        </div>
+      </el-card>
   </el-row>
 </template>
 
