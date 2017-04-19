@@ -1,0 +1,294 @@
+<template>
+    <div>
+        <!-- 文章内容开始 -->
+        <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item><i class="el-icon-setting"></i> 文章详情</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
+        <div class="ms-doc">
+            <h3>{{title}}</h3>
+            <div class="visit-number"><el-button type="primary" >访客量：100</el-button></div>
+            <article style="text-indent: 35px;">
+                {{content}}
+                <div class="acticle-share">
+                    <el-button type="primary" icon="share" size="mini" class="share-button">  分享</el-button>
+                </div>
+            </article>
+        </div>
+        <!-- 文章内容结束 -->
+        <!-- 打赏开始 -->
+        <div class="ms-doc ms-pay">
+          <h4>打赏</h4>
+          <div class="pay-button">
+              <p>
+                坚持原创，您的鼓励是我前进的动力！
+              </p>
+              <el-button type="danger" @click="pay">赏</el-button>
+          </div>
+          <div class="pay-image" v-show="active">
+            <div class="pay-weixin">
+              <img src="../../../static/img/weixin.png" alt="无二维码" width="200px"/>
+              <p>
+                微信支付
+              </p>
+            </div>
+            <div class="pay-zhifubao">
+              <img src="../../../static/img/zhifubao.png"  alt="无二维码" width="200px"/>
+              <p>
+                支付宝支付
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- 打赏结束 -->
+        <!-- 评论开始 -->
+        <div class="ms-doc">
+            <h4>所有评论</h4>
+            <article>
+
+              <div class="comments">
+                <div class="comments-tip">
+                    <img src="../../../static/img/img.jpg" class="image">
+                    <div class="comments-author">
+                      AA
+                    </div>
+                </div>
+                <div class="comments-area">
+                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" :disabled="true" value="写的真好">
+                  </el-input>
+                </div>
+                <div>
+                  <el-button type="success" size="mini" class="reply">回复</el-button>
+                </div>
+              </div>
+              <div class="comments">
+                <div class="comments-tip">
+                    <img src="../../../static/img/img.jpg" class="image">
+                    <div class="comments-author">
+                      BB
+                    </div>
+                </div>
+                <div class="comments-area">
+                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" :disabled="true" value="写的真好2，点赞"></el-input>
+                </div>
+                <div>
+                  <el-button type="success" size="mini" class="reply">回复</el-button>
+                </div>
+              </div>
+
+              <h5>撰写评论：</h5>
+
+              <div class="comments">
+                <div class="comments-tip">
+                    <img src="../../../static/img/img.jpg" class="image">
+                    <div class="comments-author">
+                      我
+                    </div>
+                </div>
+                <div class="comments-area">
+                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" placeholder="请输入评论内容" ></el-input>
+                </div>
+                <div>
+                  <el-button type="success" size="mini" class="send">发送</el-button>
+                </div>
+              </div>
+            </article>
+        </div>
+        <!-- 评论结束 -->
+    </div>
+</template>
+
+<script>
+    export default {
+        data(){
+            return {
+              acticle:{
+                acticleContent: '',
+                acticleTitle: '',
+                acticleAuthor: ''
+              },
+              active: false
+            }
+        },
+        computed :{
+            authorName(){
+              return localStorage.getItem('acticle_author');
+            },
+            title(){
+              return localStorage.getItem('acticle_title');
+            },
+            content(){
+              return localStorage.getItem('acticle_content');
+            }
+        },
+        methods:{
+          pay(){
+            if (this.active) {
+              this.active = false;
+            }else {
+              this.active = true;
+            }
+          }
+        }
+    }
+</script>
+
+<style scoped>
+    .share-button {
+      float: right;
+      background-color: #F7BA2A;
+    }
+
+    .acticle-share {
+      width: 100%;
+      text-align: center;
+      padding-bottom: 5px;
+      margin-bottom: 0px;
+    }
+
+    .pay-image {
+      text-align: center;
+      width: 80%;
+      margin: auto;
+      padding: 5px;
+      height: 250px;;
+    }
+
+    .pay-weixin :hover{
+      color: #13CE66;
+    }
+
+    .pay-zhifubao :hover{
+      color: #13CE66;
+    }
+
+    .pay-weixin {
+      float: left;
+      width: 50%;
+      margin: auto;
+    }
+
+    .pay-zhifubao {
+      width: 50%;
+      float: left;
+      margin: auto;
+    }
+
+    .pay-button {
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+      padding: 5px;
+    }
+    .ms-pay {
+      height: auto;
+      /*text-align: center;*/
+    }
+
+    .comments-author {
+        font-size: 10px;
+        margin-top: 5px;
+        word-break:keep-all;
+        white-space:normal;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        height: 20px;
+        text-align: center;
+    }
+
+    .image {
+      width: 60%;
+      height: 60%;;
+      border-radius: 50%;
+      display: block;
+      margin: auto;
+    }
+
+    .comments-tip {
+      width: 10%;
+      float: left;
+    }
+
+    .comments-area {
+      width: 84%;
+      float: left;
+    }
+
+    .reply {
+      float: right;
+      margin: 5px;
+    }
+
+    .send {
+      float: right;
+      margin: auto;
+      padding-bottom: 5px;
+    }
+    .comments {
+      width: 90%;
+      height: 80px;
+      margin: 30px;
+    }
+
+    .visit-number {
+        float: right;
+        margin: 5px;
+        color: #13CE66;
+    }
+
+    .ms-doc{
+        width:100%;
+        max-width: 980px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    h4 {
+      padding: 9px 10px 10px;
+      margin: 0;
+      font-size: 14px;
+      line-height: 17px;
+      background-color: #D3DCE6;
+      border: 1px solid #d8d8d8;
+      border-bottom: 0;
+      border-radius: 3px 3px 0 0;
+    }
+    .ms-doc h3{
+        padding: 9px 10px 10px;
+        margin: 0;
+        font-size: 14px;
+        line-height: 17px;
+        background-color: #f5f5f5;
+        border: 1px solid #d8d8d8;
+        border-bottom: 0;
+        border-radius: 3px 3px 0 0;
+    }
+    .ms-doc article{
+        padding: 45px;
+        word-wrap: break-word;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+    .ms-doc article h1{
+        font-size:32px;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    .ms-doc article h2 {
+        margin: 24px 0 16px;
+        font-weight: 600;
+        line-height: 1.25;
+        padding-bottom: 7px;
+        font-size: 24px;
+        border-bottom: 1px solid #eee;
+    }
+    .ms-doc article p{
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+    .ms-doc article .el-checkbox{
+        margin-bottom: 5px;
+    }
+</style>
