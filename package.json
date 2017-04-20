@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "it_share_platform",
   "version": "1.0.0",
   "description": "基于Vue.js 2.x系列 + element-ui",
@@ -55,7 +55,7 @@
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.16.1",
     "webpack-merge": "^2.6.1",
-    "iview": "^2.0.0-rc.10",
+    "iview": "^2.0.0-rc.10"
   },
   "engines": {
     "node": ">= 4.0.0",
