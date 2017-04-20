@@ -7,7 +7,13 @@ import ElementUI from 'element-ui';
 import '../static/css/theme-green/index.css';       // 浅绿色主题
 import "babel-polyfill";
 import './mock/index.js';
+
+//引入 iview
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+
 Vue.use(ElementUI);
+Vue.use(iView);
 Vue.prototype.$axios = axios;
 new Vue({
     router,

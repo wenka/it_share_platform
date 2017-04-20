@@ -70,7 +70,7 @@
                   </el-input>
                 </div>
                 <div>
-                  <el-button type="success" size="mini" class="reply">回复</el-button>
+                  <el-button type="success" size="mini" class="reply"><Icon type="reply"></Icon> 回复</el-button>
                 </div>
               </div>
               <div class="comments">
@@ -84,7 +84,7 @@
                   <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" :disabled="true" value="写的真好2，点赞"></el-input>
                 </div>
                 <div>
-                  <el-button type="success" size="mini" class="reply">回复</el-button>
+                  <el-button type="success" size="mini" class="reply"><Icon type="reply"></Icon> 回复</el-button>
                 </div>
               </div>
 
@@ -101,7 +101,7 @@
                   <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" placeholder="请输入评论内容" ></el-input>
                 </div>
                 <div>
-                  <el-button type="success" size="mini" class="send" @click="send">发送</el-button>
+                  <el-button type="success" size="mini" class="send" @click="send"><Icon type="paper-airplane"></Icon> 发送</el-button>
                 </div>
               </div>
             </article>
