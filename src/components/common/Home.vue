@@ -14,7 +14,8 @@
     // import vHead2 from './Header2.vue';
     export default {
         components:{
-            vHead,vSidebar
+            // vHead,vSidebar
+            vHead
         }
     }
 </script>

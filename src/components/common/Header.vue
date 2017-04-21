@@ -50,7 +50,8 @@
         height: 70px;
         font-size: 22px;
         line-height: 70px;
-        color: #fff;
+        color: #464c5b;
+        background-color: #f5f7f9;
     }
     .header .logo{
         float: left;
@@ -61,13 +62,13 @@
         float: right;
         padding-right: 50px;
         font-size: 16px;
-        color: #fff;
+        color: #464c5b;
     }
     .user-info .el-dropdown-link{
         position: relative;
         display: inline-block;
         padding-left: 50px;
-        color: #fff;
+        color: #464c5b;
         cursor: pointer;
         vertical-align: middle;
     }
