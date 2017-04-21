@@ -95,6 +95,7 @@ export default {
     border-radius: 3px;
     border-style: dashed;
     cursor:pointer;
+    transition: all 0.7s linear;
   }
 
   .article {
