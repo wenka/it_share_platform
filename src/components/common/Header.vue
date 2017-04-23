@@ -1,6 +1,13 @@
 <template>
     <div class="header">
         <div class="logo"> IT 技术分享平台 </div>
+        <div class="serach">
+            <span class="el-icon-search search-span" @click="showSearch"></span>
+            <transition name="fade">
+              <input type="text" v-model="param" @keyup.13="search($event)" v-show="active" class="search-input"/>
+            </transition>
+          </span>
+        </div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
@@ -23,7 +30,9 @@
     export default {
         data() {
             return {
-                name: 'linxin'
+                name: 'linxin',
+                active: false,
+                param: ""
             }
         },
         computed:{
@@ -38,11 +47,60 @@
                     localStorage.removeItem('ms_username')
                     this.$router.push('/login');
                 }
+            },
+            showSearch() {
+                console.log("search" + this.active);
+                if (this.active) {
+                  this.active = false;
+                }else {
+                  this.active = true;
+                }
+            },
+            search(ev) {
+              if(ev.keyCode == 13){
+                this.$message({
+                  message: '恭喜你，搜索' + this.param + '成功',
+                  type: 'success'
+                });
+                this.param = "";
+                this.active = false;
+              }
             }
         }
     }
 </script>
 <style scoped>
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .10s
+    }
+    .fade-enter, .fade-leave-active {
+      transition: opacity .10s
+    }
+
+    .search-input {
+      border-width: 0px;
+      background-color: #E5E9F2;
+      max-width: 70%;
+      max-height: 35px;
+      margin: auto;
+      padding: 10px;
+    }
+
+    .serach-span {
+      border-width: 1px;
+      border-color: #D3DCE6;
+      border-style: dashed;
+      float: left;
+      /*height: 50%;*/
+    }
+
+    .serach {
+      width: 250px;
+      float: left;
+      max-height: 70px;
+    }
+
     .header {
         position: relative;
         box-sizing: border-box;
@@ -55,7 +113,7 @@
     }
     .header .logo{
         float: left;
-        width:300px;
+        width:250px;
         text-align: center;
     }
     .user-info {
