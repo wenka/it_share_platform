@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="info">
         <!-- 文章内容开始 -->
         <div class="crumbs">
             <el-breadcrumb separator="/">
@@ -170,6 +170,10 @@
 </script>
 
 <style scoped>
+    .info {
+      margin: auto;
+    }
+
     .tag {
         margin: 5px;
         border-radius: 8px;
@@ -286,7 +290,7 @@
 
     .ms-doc{
         width:100%;
-        max-width: 980px;
+        /*max-width: 980px;*/
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     }
     h4 {

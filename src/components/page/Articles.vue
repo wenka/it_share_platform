@@ -1,6 +1,6 @@
 <template>
   <el-row>
-      <el-card>
+      <el-card v-for="(o, index) in 3" :offset="index > 0 ? 3 : 0">
         <Row>
           <Col :xs="24" :sm="8" :md="6" :lg="4">
             <div class="author">
@@ -82,6 +82,7 @@ export default {
   .title {
     width: 100%;
     top: 2xp;
+    max-height:30px;
     padding: 5px;
     text-align: center;
     font-size: 15px;
@@ -89,7 +90,8 @@ export default {
   }
 
   .title:hover {
-    font-size: 20px;
+    font-size: 17px;
+    padding: 2px;
     border-width: 1px;
     border-color: #13CE66;
     border-radius: 3px;
@@ -117,6 +119,16 @@ export default {
     margin: auto;
     height: 100%;
   }
+
+  .author-name:hover {
+    /*font-size: 20px;*/
+    border-width: 1px;
+    border-color: #13CE66;
+    border-radius: 3px;
+    border-style: dashed;
+    cursor:pointer;
+    transition: all 0.7s linear;
+  }
   .author-content {
     text-align: center;
     margin: auto;
@@ -135,10 +147,11 @@ export default {
   }
 
   .image {
-    width: 100%;
+    width: 80%;
     height: 100%;
     max-width: 250px;
     border-radius: 50%;
+    margin: auto;
     display: block;
   }
 
