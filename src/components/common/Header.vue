@@ -1,6 +1,9 @@
 <template>
     <div class="header">
-        <div class="logo"> IT 技术分享平台 </div>
+        <div class="logo">
+          <img class="header-logo" src="../../../static/img/logo.jpg">
+          <div class="header-title">&nbsp;&nbsp;IT 技术分享平台 </div>
+        </div>
         <div class="serach">
             <span class="el-icon-search search-span" @click="showSearch"></span>
             <transition name="fade">
@@ -71,6 +74,19 @@
 </script>
 <style scoped>
 
+    .header-title {
+      margin: auto;
+      float: left;
+    }
+
+    .header-logo {
+      border-radius: 50%;
+      height:50px;;
+      float: left;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+
     .fade-enter-active, .fade-leave-active {
       transition: opacity .10s
     }
@@ -85,6 +101,11 @@
       max-height: 35px;
       margin: auto;
       padding: 10px;
+      border-radius: 50px;
+    }
+
+    input {
+      border-radius: 50px;
     }
 
     .serach-span {
