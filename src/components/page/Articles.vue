@@ -82,22 +82,24 @@ export default {
   .title {
     width: 100%;
     top: 2xp;
-    max-height:30px;
     padding: 5px;
     text-align: center;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    border-width: 1px;
+    border-color: #13CE66;
+    border-radius: 50px;
+    border-style: dashed;
   }
 
   .title:hover {
-    font-size: 17px;
-    padding: 2px;
-    border-width: 1px;
-    border-color: #13CE66;
-    border-radius: 3px;
-    border-style: dashed;
     cursor:pointer;
     transition: all 0.7s linear;
+    border-color: #20A0FF;
+    border-style: double;
+    background-color: #C0CCDA;
   }
 
   .article {
@@ -118,16 +120,20 @@ export default {
     text-align: center;
     margin: auto;
     height: 100%;
+    border-radius: 50px;
   }
 
   .author-name:hover {
     /*font-size: 20px;*/
     border-width: 1px;
     border-color: #13CE66;
-    border-radius: 3px;
+    border-radius: 50px;
     border-style: dashed;
     cursor:pointer;
     transition: all 0.7s linear;
+    border-color: #20A0FF;
+    border-style: double;
+    background-color: #C0CCDA;
   }
   .author-content {
     text-align: center;
