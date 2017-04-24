@@ -1,8 +1,8 @@
 <template>
     <div class="header">
         <div class="logo">
-          <img class="header-logo" src="../../../static/img/logo.jpg">
-          <div class="header-title">&nbsp;&nbsp;IT 技术分享平台 </div>
+          <img class="header-logo" src='../../../static/img/logo.jpg'>
+          <div class="header-title" @click="backHome()">IT 技术分享平台 </div>
         </div>
         <div class="serach">
             <span class="el-icon-search search-span" @click="showSearch"></span>
@@ -19,7 +19,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
-                          <span class="el-icon-menu">  个人中心</span>
+                          <span class="fa fa-user-circle-o">  个人中心</span>
                     </el-dropdown-item>
                     <el-dropdown-item command="loginout">
                       <span class="el-icon-information">  退出</span>
@@ -68,15 +68,26 @@
                 this.param = "";
                 this.active = false;
               }
+            },
+            backHome() {
+              console.log("返回首页");
+              this.$router.push('/homePage');
             }
         }
     }
 </script>
 <style scoped>
 
+    .header-title:hover{
+      color: #009966;
+      text-decoration:underline;
+      cursor: pointer;
+    }
+
     .header-title {
       margin: auto;
       float: left;
+      color: #00CC99;
     }
 
     .header-logo {

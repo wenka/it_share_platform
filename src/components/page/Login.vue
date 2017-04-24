@@ -42,7 +42,7 @@
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
                         localStorage.setItem('ms_username',self.ruleForm.username);
-                        self.$router.push('/article');
+                        self.$router.push('/homePage');
                     } else {
                         console.log('error submit!!');
                         return false;
