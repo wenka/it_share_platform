@@ -1,8 +1,8 @@
 <template>
     <div class="header">
         <div class="logo">
-          <img class="header-logo" src="../../../static/img/logo.jpg">
-          <div class="header-title">&nbsp;&nbsp;IT 技术分享平台 </div>
+          <img class="header-logo" src='../../../static/img/logo.jpg'>
+          <div class="header-title" @click="backHome()">IT 技术分享平台 </div>
         </div>
         <div class="serach">
             <span class="el-icon-search search-span" @click="showSearch"></span>
@@ -68,15 +68,26 @@
                 this.param = "";
                 this.active = false;
               }
+            },
+            backHome() {
+              console.log("返回首页");
+              this.$router.push('/homePage');
             }
         }
     }
 </script>
 <style scoped>
 
+    .header-title:hover{
+      color: #009966;
+      text-decoration:underline;
+      cursor: pointer;
+    }
+
     .header-title {
       margin: auto;
       float: left;
+      color: #00CC99;
     }
 
     .header-logo {
