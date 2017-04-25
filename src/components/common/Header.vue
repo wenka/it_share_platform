@@ -19,10 +19,10 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
-                          <span class="el-icon-menu">  个人中心</span>
+                          <span class="el-icon-menu">&nbsp;&nbsp;个人中心</span>
                     </el-dropdown-item>
                     <el-dropdown-item command="loginout">
-                      <span class="el-icon-information">  退出</span>
+                      <span class="el-icon-information">&nbsp;&nbsp;退出</span>
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
