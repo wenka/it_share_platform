@@ -5,12 +5,13 @@
     <div class="header">
         <img class="header-logo" src='../../../static/img/logo.jpg' alt="图标不见了"/>
         <div class="header-title">IT 技术分享平台 </div>
+        <div class="person-place"><span class="fa fa-home">个人空间</span></div>
     </div>
     <!-- 轮播图 -->
     <div class="picture">
       <el-carousel :interval="4000" type="card" height="400px;">
-        <el-carousel-item v-for="item in 4">
-          <h3>{{ item }}</h3>
+        <el-carousel-item v-for="item in banner">
+          <h3><img :src='item.src' alt="图标不见了" width="100%" height="100%"/></h3>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -18,13 +19,13 @@
     <div class="tab">
       <div class="tab-content">
         <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" default-active="1">
-          <el-menu-item index="1">技术头条</el-menu-item>
-          <el-menu-item index="2">技术中心</el-menu-item>
-          <el-menu-item index="3">技术下载</el-menu-item>
+          <el-menu-item index="1"><span class="fa fa-newspaper-o">&nbsp;技术头条</span></el-menu-item>
+          <el-menu-item index="2"><span class="fa fa-list-alt">&nbsp;技术博客</span></el-menu-item>
+          <el-menu-item index="3"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
           <el-submenu index="4">
-            <template slot="title">技术问答</template>
-            <el-menu-item index="4-1">前端</el-menu-item>
-            <el-menu-item index="4-2">后端</el-menu-item>
+            <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
+            <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
+            <el-menu-item index="4-2"><span class="fa fa-file-archive-o">源码实例</span></el-menu-item>
           </el-submenu>
         </el-menu>
       </div>
@@ -33,7 +34,7 @@
     <!-- 首页主体 -->
     <div class="main-content">
         <div class="main-content-list">
-          <Card :bordered="false" padding="10" v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0">
+          <Card :bordered="false" v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0">
             <p slot="title">无边框标题{{index}}</p>
             <p>无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充。</p>
           </Card>
@@ -51,6 +52,12 @@
 export default {
     data() {
       return {
+        banner:[
+          {src: '../../../static/img/banner/1.jpg'},
+          {src: '../../../static/img/banner/bootstrap.jpg'},
+          {src: '../../../static/img/banner/vue.jpg'},
+          {src: '../../../static/img/banner/java.jpg'}
+        ] ,
         activeName2: '1',
         acticle: {
           currentDate: new Date(),
@@ -72,12 +79,42 @@ export default {
 </script>
 
 <style>
+  .ivu-card {
+    border-width: 1px;
+    border-color: #DDDDDD;
+    border-radius: 20px;
+    border-style:dashed;
+    padding: 10px;
+    width: 50%;
+  }
+
+  .fa {
+    border-radius: 50px;
+    border-width: 1px;
+    border-color: #00FF99;
+    border-style: dashed;
+    padding: 5px;
+  }
+
+  .fa:hover {
+    background-color: #CCFFFF;
+    cursor: pointer;
+  }
+
+  .person-place{
+    float: right;
+    margin: auto;
+    font-size: 15px;
+    padding-right: 10px;
+    color: #009966;
+    height: auto;
+  }
+
   .footer {
     width: 100%;
     float: left;
     background-color: red;
     bottom: 0px;
-    position:fixed;
   }
 
   .main-content-list {
@@ -130,14 +167,14 @@ export default {
 
   .tab-content {
     width: 100%;
-    max-width: 402px;
+    max-width: 521px;
     margin: auto;
   }
 
   .tab {
     width: 100%;
     float: left;
-    min-width: 405px;
+    min-width: 521px;
   }
 
   body .main {
