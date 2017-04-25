@@ -16,24 +16,28 @@
     </div>
     <!-- 导航 -->
     <div class="tab">
-      <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" default-active="1">
-        <el-menu-item index="1">技术头条</el-menu-item>
-        <el-menu-item index="2">技术中心</el-menu-item>
-        <el-menu-item index="3">技术下载</el-menu-item>
-        <el-submenu index="4">
-          <template slot="title">技术问答</template>
-          <el-menu-item index="4-1">前端</el-menu-item>
-          <el-menu-item index="4-2">后端</el-menu-item>
-        </el-submenu>
-      </el-menu>
+      <div class="tab-content">
+        <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" default-active="1">
+          <el-menu-item index="1">技术头条</el-menu-item>
+          <el-menu-item index="2">技术中心</el-menu-item>
+          <el-menu-item index="3">技术下载</el-menu-item>
+          <el-submenu index="4">
+            <template slot="title">技术问答</template>
+            <el-menu-item index="4-1">前端</el-menu-item>
+            <el-menu-item index="4-2">后端</el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </div>
     </div>
 
     <!-- 首页主体 -->
     <div class="main-content">
-        <Card :bordered="false" padding="10" v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0">
-            <p slot="title">无边框标题</p>
+        <div class="main-content-list">
+          <Card :bordered="false" padding="10" v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0">
+            <p slot="title">无边框标题{{index}}</p>
             <p>无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充。</p>
-        </Card>
+          </Card>
+        </div>
     </div>
     <!-- 底部 -->
     <div class="footer">
@@ -76,11 +80,16 @@ export default {
     position:fixed;
   }
 
-  .main-content {
-    height:200px;
-    width:auto;
-    max-width: 980px;
+  .main-content-list {
     margin: auto;
+    width: auto;
+    max-width: 980px;
+  }
+
+  .main-content {
+    width:100%;
+    margin: auto;
+    float: left;
   }
 
   .picture {
@@ -119,15 +128,20 @@ export default {
     margin-top: 10px;
   }
 
-  .tab {
+  .tab-content {
     width: 100%;
-    height: auto;
-    max-width: 450px;
+    max-width: 402px;
     margin: auto;
   }
 
+  .tab {
+    width: 100%;
+    float: left;
+    min-width: 405px;
+  }
+
   body .main {
-    height: auto;
+    height: 100%;
     overflow-y: auto;
     overflow: auto;
   }
