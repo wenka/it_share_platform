@@ -18,31 +18,97 @@
     <!-- 导航 -->
     <div class="tab">
       <div class="tab-content">
-        <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" default-active="1">
-          <el-menu-item index="1"><span class="fa fa-newspaper-o">&nbsp;技术头条</span></el-menu-item>
-          <el-menu-item index="2"><span class="fa fa-list-alt">&nbsp;技术博客</span></el-menu-item>
-          <el-menu-item index="3"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
-          <el-submenu index="4">
-            <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
-            <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
-            <el-menu-item index="4-2"><span class="fa fa-file-archive-o">源码实例</span></el-menu-item>
-          </el-submenu>
-        </el-menu>
+        <Row>
+          <Col :xs="0" :sm="24" :md="24" :lg="24">
+            <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" default-active="1">
+              <el-menu-item index="1"><span class="fa fa-newspaper-o">&nbsp;技术头条</span></el-menu-item>
+              <el-menu-item index="2"><span class="fa fa-list-alt">&nbsp;技术博客</span></el-menu-item>
+              <el-menu-item index="3"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
+              <el-submenu index="4">
+                <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
+                <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
+                <el-menu-item index="4-2"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
+              </el-submenu>
+            </el-menu>
+          </Col>
+          <Col :xs="24" :sm="0" :md="0" :lg="0">
+            <el-menu default-active="0" class="el-menu-vertical" @open="handleOpen" @close="handleClose">
+              <el-submenu index="0">
+                <template slot="title"><li class="el-icon-menu"></li>导航</template>
+                <el-menu-item index="1"><span class="fa fa-newspaper-o">&nbsp;技术头条</span></el-menu-item>
+                <el-menu-item index="2"><span class="fa fa-list-alt">&nbsp;技术博客</span></el-menu-item>
+                <el-menu-item index="3"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
+                <el-submenu index="4">
+                  <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
+                  <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
+                  <el-menu-item index="4-2"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
+                </el-submenu>
+              </el-submenu>
+            </el-menu>
+          </Col>
+        </Row>
+
       </div>
     </div>
 
     <!-- 首页主体 -->
     <div class="main-content">
-        <div class="main-content-list">
-          <Card :bordered="false" v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0">
-            <p slot="title">无边框标题{{index}}</p>
-            <p>无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充。</p>
-          </Card>
-        </div>
+      <Row>
+        <Col :xs="24" :sm="14" :md="14" :lg="12">
+          <div class="main-content-list">
+            <Card :bordered="false" v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0">
+              <p slot="title" class="fa fa-hand-o-right">&nbsp;&nbsp;无边框标题{{index}}</p>
+              <p>无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充。</p>
+            </Card>
+          </div>
+        </Col>
+        <Col :xs="0" :sm="10" :md="10" :lg="12">
+          <div class="main-content-right" >
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span class="right-content-title fa fa-file-text">&nbsp;&nbsp;热门文章</span>
+                <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
+              </div>
+              <div v-for="o in 4" class="text item">
+                <a href="">{{'列表内容 ' + o }}</a>
+              </div>
+            </el-card>
+
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span class="right-content-title fa fa-ambulance">&nbsp;&nbsp;江湖救急</span>
+                <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
+              </div>
+              <div v-for="o in 4" class="text item">
+                <a href="">{{'列表内容 ' + o }}</a>
+              </div>
+            </el-card>
+
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span class="right-content-title fa fa-user-plus">&nbsp;&nbsp;热门作者</span>
+                <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
+              </div>
+              <div v-for="o in 4" class="text item">
+                <a href="">{{'列表内容 ' + o }}</a>
+              </div>
+            </el-card>
+
+          </div>
+        </Col>
+      </Row>
     </div>
     <!-- 底部 -->
     <div class="footer">
-      底部
+      <p>
+        <i class="fa fa-qq" aria-hidden="true">&nbsp;wkwenka@gmail.com</i>
+        <i class="fa fa-weixin" aria-hidden="true">&nbsp;15738826986</i>
+      </p>
+      <p>
+        <i class="fa fa-weibo" aria-hidden="true">&nbsp;爱红尘的苦行僧</i>
+        <i class="fa fa-github" aria-hidden="true">&nbsp;wenka</i>
+      </p>
+      <p><i class="fa fa-copyright" aria-hidden="true">版权所有</i></p>
     </div>
   </div>
 
@@ -70,7 +136,13 @@ export default {
     methods: {
       handleSelect(key, keyPath) {
          console.log(key, keyPath);
-       }
+       },
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      }
     },
     components: {
 
@@ -79,16 +151,49 @@ export default {
 </script>
 
 <style>
+
+  .el-menu-vertical {
+    width: auto;
+    max-width: 200px;
+  }
+
+  .right-content-title {
+    line-height: 36px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+
+  .item {
+    padding: 18px 0;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+      display: table;
+      content: "";
+  }
+  .clearfix:after {
+      clear: both
+  }
+
+  .box-card {
+    width: 80%;
+    margin: 20px;
+  }
+
   .ivu-card {
     border-width: 1px;
     border-color: #DDDDDD;
     border-radius: 20px;
     border-style:dashed;
     padding: 10px;
-    width: 50%;
   }
 
-  .fa {
+  .fa-home {
     border-radius: 50px;
     border-width: 1px;
     border-color: #00FF99;
@@ -112,14 +217,23 @@ export default {
 
   .footer {
     width: 100%;
+    height: auto;
     float: left;
-    background-color: red;
+    background-color: #333333;
+    text-align: center;
+    font-size: 15px;
     bottom: 0px;
+  }
+
+  .main-content-right {
+    margin: auto;
+    width: 80%;
+    max-width: 980px;
   }
 
   .main-content-list {
     margin: auto;
-    width: auto;
+    width: 80%;
     max-width: 980px;
   }
 
@@ -127,6 +241,8 @@ export default {
     width:100%;
     margin: auto;
     float: left;
+    align-items: center;
+    align-content: center;
   }
 
   .picture {
@@ -181,6 +297,7 @@ export default {
     height: 100%;
     overflow-y: auto;
     overflow: auto;
+    background-color: #EEEEEE;
   }
 
   .el-carousel__item h3 {
