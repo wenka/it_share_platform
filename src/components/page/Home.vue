@@ -239,13 +239,21 @@ export default {
     margin: auto;
     width: 80%;
     max-width: 980px;
+    float: left;
   }
 
   .main-content-list {
     margin: auto;
     width: 80%;
     max-width: 980px;
+    float: right;
   }
+  @media screen and (max-width: 500px) {
+    .main-content-list {
+      margin: auto;
+      width: 100%;
+    }
+}
 
   .main-content {
     width:100%;
