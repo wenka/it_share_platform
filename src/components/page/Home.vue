@@ -314,7 +314,7 @@ export default {
   body .main {
     height: 100%;
     overflow-y: auto;
-    overflow: auto;
+    overflow-x: hidden;
     background-color: #EEEEEE;
   }
 
