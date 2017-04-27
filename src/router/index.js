@@ -51,11 +51,15 @@ export default new Router({
                 },
                 {
                     path: '/article',
-                    component: resolve => require(['../components/page/Articles.vue'],resolve)
+                    component: resolve => require(['../components/page/Articles.vue'],resolve) //文章列表
                 },
                 {
                     path: '/article-info',
-                    component: resolve => require(['../components/page/Articles-info.vue'],resolve)
+                    component: resolve => require(['../components/page/Articles-info.vue'],resolve) //文章详情
+                },
+                {
+                    path: '/personal-space',
+                    component: resolve => require(['../components/page/PersonalSpace.vue'],resolve) //个人空间
                 }
             ]
         },

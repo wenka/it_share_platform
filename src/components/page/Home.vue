@@ -5,7 +5,7 @@
     <div class="header">
         <img class="header-logo" src='../../../static/img/logo.jpg' alt="图标不见了"/>
         <div class="header-title">IT 技术分享平台 </div>
-        <div class="person-place"><span class="fa fa-home">个人空间</span></div>
+        <div class="person-place"><span class="fa fa-home" @click="PersonalSpace()">个人空间</span></div>
     </div>
     <!-- 轮播图 -->
     <div class="picture">
@@ -142,6 +142,16 @@ export default {
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
+      },
+      PersonalSpace(){
+        console.log("个人空间");
+        var username = localStorage.getItem('ms_username');
+        console.log(username);
+        if (!username || username == undefined || username == "") {
+            this.$router.push('/login');
+        }else {
+            this.$router.push('/personal-space');
+        }
       }
     },
     components: {
@@ -201,7 +211,7 @@ export default {
     padding: 5px;
   }
 
-  .fa:hover {
+  .fa-home:hover {
     background-color: #CCFFFF;
     cursor: pointer;
   }
