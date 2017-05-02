@@ -30,14 +30,6 @@ export default new Router({
                     component: resolve => require(['../components/page/BaseForm.vue'], resolve)
                 },
                 {
-                    path: '/vueeditor',
-                    component: resolve => require(['../components/page/VueEditor.vue'], resolve)    // Vue-Quill-Editor组件
-                },
-                {
-                    path: '/markdown',
-                    component: resolve => require(['../components/page/Markdown.vue'], resolve)     // Vue-Quill-Editor组件
-                },
-                {
                     path: '/upload',
                     component: resolve => require(['../components/page/Upload.vue'], resolve)       // Vue-Core-Image-Upload组件
                 },
@@ -60,6 +52,10 @@ export default new Router({
                 {
                     path: '/personal-space',
                     component: resolve => require(['../components/page/personalSpace/PersonalSpace.vue'],resolve) //个人空间
+                },
+                {
+                    path: '/edit',
+                    component: resolve => require(['../components/page/personalSpace/EditPost.vue'],resolve) //内容编辑
                 }
             ]
         },
