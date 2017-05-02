@@ -40,13 +40,13 @@
           </div>
           <div class="pay-image" v-show="active">
             <div class="pay-weixin">
-              <img src="../../../static/img/weixin.png" alt="无二维码" width="200px"/>
+              <img src="../../../../static/img/weixin.png" alt="无二维码" width="200px"/>
               <p>
                 微信支付
               </p>
             </div>
             <div class="pay-zhifubao">
-              <img src="../../../static/img/zhifubao.png"  alt="无二维码" width="200px"/>
+              <img src="../../../../static/img/zhifubao.png"  alt="无二维码" width="200px"/>
               <p>
                 支付宝支付
               </p>
@@ -60,7 +60,7 @@
             <article>
               <div class="comments">
                 <div class="comments-tip">
-                    <img src="../../../static/img/img.jpg" class="image">
+                    <img src="../../../../static/img/img.jpg" class="image">
                     <div class="comments-author">
                       AA
                     </div>
@@ -75,7 +75,7 @@
               </div>
               <div class="comments">
                 <div class="comments-tip">
-                    <img src="../../../static/img/img.jpg" class="image">
+                    <img src="../../../../static/img/img.jpg" class="image">
                     <div class="comments-author">
                       BB
                     </div>
@@ -92,7 +92,7 @@
 
               <div class="comments">
                 <div class="comments-tip">
-                    <img src="../../../static/img/img.jpg" class="image">
+                    <img src="../../../../static/img/img.jpg" class="image">
                     <div class="comments-author">
                       我
                     </div>

@@ -51,15 +51,15 @@ export default new Router({
                 },
                 {
                     path: '/article',
-                    component: resolve => require(['../components/page/Articles.vue'],resolve) //文章列表
+                    component: resolve => require(['../components/page/article/Articles.vue'],resolve) //文章列表
                 },
                 {
                     path: '/article-info',
-                    component: resolve => require(['../components/page/Articles-info.vue'],resolve) //文章详情
+                    component: resolve => require(['../components/page/article/Articles-info.vue'],resolve) //文章详情
                 },
                 {
                     path: '/personal-space',
-                    component: resolve => require(['../components/page/PersonalSpace.vue'],resolve) //个人空间
+                    component: resolve => require(['../components/page/personalSpace/PersonalSpace.vue'],resolve) //个人空间
                 }
             ]
         },
@@ -69,7 +69,7 @@ export default new Router({
         },
         {
             path: '/homePage',
-            component: resolve => require(['../components/page/Home.vue'],resolve)
+            component: resolve => require(['../components/page/home/Home.vue'],resolve)
         }
     ]
 })

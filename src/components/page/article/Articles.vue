@@ -1,10 +1,10 @@
 <template>
   <el-row>
-      <el-card v-for="(o, index) in 3" :offset="index > 0 ? 3 : 0">
+      <el-card v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0">
         <Row>
           <Col :xs="24" :sm="8" :md="6" :lg="4">
             <div class="author">
-              <img src="../../../static/img/img.jpg" class="image">
+              <img src="../../../../static/img/img.jpg" class="image">
               <div class="author-content">
                 <span class="el-icon-star-on"> 作者</span>
                 <div class="author-name">

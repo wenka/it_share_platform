@@ -3,6 +3,8 @@ html,body,#app,.wrapper{
     width:100%;
     height:100%;
     overflow: hidden;
+    /*overflow-y: auto;
+    overflow-x: hidden;*/
 }
 body{
     font-family:"Helvetica Neue",Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
@@ -16,10 +18,11 @@ a{text-decoration: none}
     /*right: 0;*/
     top: 70px;
     bottom:0;
-    width: auto;
+    width: 100%;
     padding:40px;
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
+    background-color: #EEEEEE;
 }
 .crumbs{
     margin-bottom: 20px;

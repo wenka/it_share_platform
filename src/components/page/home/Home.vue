@@ -3,7 +3,7 @@
   <div class="main">
 
     <div class="header">
-        <img class="header-logo" src='../../../static/img/logo.jpg' alt="图标不见了"/>
+        <img class="header-logo" src='../../../../static/img/logo.jpg' alt="图标不见了"/>
         <div class="header-title">IT 技术分享平台 </div>
         <div class="person-place"><span class="fa fa-home" @click="PersonalSpace()">个人空间</span></div>
     </div>
@@ -119,10 +119,10 @@ export default {
     data() {
       return {
         banner:[
-          {src: '../../../static/img/banner/1.jpg'},
-          {src: '../../../static/img/banner/bootstrap.jpg'},
-          {src: '../../../static/img/banner/vue.jpg'},
-          {src: '../../../static/img/banner/java.jpg'}
+          {src: '../../../../static/img/banner/1.jpg'},
+          {src: '../../../../static/img/banner/bootstrap.jpg'},
+          {src: '../../../../static/img/banner/vue.jpg'},
+          {src: '../../../../static/img/banner/java.jpg'}
         ] ,
         activeName2: '1',
         acticle: {

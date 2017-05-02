@@ -1,11 +1,11 @@
 <template>
-  <div class="main">
+  <div class="main-personal-info">
     <Row>
       <Col :xs="0" :sm="10" :md="8" :lg="5">
         <div class="main-left">
           <Card style="width:100%">
              <div style="text-align:center">
-                 <img src="../../../static/img/img.jpg" class="header-img">
+                 <img src="../../../../static/img/img.jpg" class="header-img">
                  <h3>{{ name }}</h3>
              </div>
          </Card>
@@ -71,13 +71,14 @@ export default {
     border-radius: 50%;
   }
 
-  .main {
+  .main-personal-info {
     width: 100%;
     margin: auto;
+    overflow-y: hidden;
   }
 
-  .content {
+  /*.content {
     width: 100%;
     background-color: #EEEEEE;
-  }
+  }*/
 </style>
