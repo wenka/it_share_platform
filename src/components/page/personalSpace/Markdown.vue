@@ -1,3 +1,4 @@
+<!-- markdown编辑页面 -->
 <template>
     <div>
         <div class="crumbs">
@@ -16,11 +17,13 @@
             <br>
             <p>这个时候就需要解析markdown语法了。可以使用 <a href="https://github.com/miaolz123/vue-markdown" target="_blank">vue-markdown</a>：一个基于vue.js的markdown语法解析插件。（这里不作展开，有需要自行了解）</p>
         </div>
+        <!-- <mavonEditor v-model="content" height="100px;"/> -->
     </div>
 </template>
 
 <script>
     import { markdownEditor } from 'vue-simplemde';
+    // import { mavonEditor } from 'mavon-editor';
     export default {
         data: function(){
             return {
@@ -36,7 +39,14 @@
             }
         },
         components: {
-            markdownEditor
+          markdownEditor
+            // mavonEditor
         }
     }
 </script>
+
+<style>
+  .footer {
+    display: none;
+  }
+</style>

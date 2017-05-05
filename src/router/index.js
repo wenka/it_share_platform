@@ -51,11 +51,23 @@ export default new Router({
                 },
                 {
                     path: '/personal-space',
-                    component: resolve => require(['../components/page/personalSpace/PersonalSpace.vue'],resolve) //个人空间
-                },
-                {
-                    path: '/edit',
-                    component: resolve => require(['../components/page/personalSpace/EditPost.vue'],resolve) //内容编辑
+                    component: resolve => require(['../components/page/personalSpace/PersonalSpace.vue'],resolve), //个人空间
+                    children:[
+                      {
+                        path: '/',
+                        component: resolve => require(['../components/page/personalSpace/MainRight.vue'],resolve) //右侧默认显示
+                      },
+                      {
+                          name: 'editPost',
+                          path: '/edit/:type',
+                          component: resolve => require(['../components/page/personalSpace/EditPost.vue'],resolve) //内容编辑
+                      },
+                      {
+                          name: 'selfDetails',
+                          path: '/self-details/:userId',
+                          component: resolve => require(['../components/page/personalSpace/selfDetails.vue'],resolve) //个人资料详情页
+                      }
+                    ]
                 }
             ]
         },

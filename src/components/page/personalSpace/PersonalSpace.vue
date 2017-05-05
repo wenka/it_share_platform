@@ -1,50 +1,61 @@
+<!-- 个人空间首页 -->
 <template>
   <div class="main-personal-info">
+    <div class="crumbs">
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item>
+              <router-link to="/personal-space">
+                <el-button class="fa fa-address-card" type="text" >&nbsp;&nbsp;我的空间</el-button>
+              </router-link>
+            </el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+
     <Row>
       <Col :xs="0" :sm="10" :md="8" :lg="5">
         <div class="main-left">
-          <Card style="width:100%">
+          <Card class="left-card">
+
+            <div class="card-title">
+                <Button type="ghost" size="small" @click="selfdetails('123456789')">个人资料</Button>
+            </div>
+
              <div style="text-align:center">
                  <img src="../../../../static/img/img.jpg" class="header-img">
-                 <h3>{{ name }}</h3>
+                 <p><h3>{{ name }}</h3></p>
              </div>
-         </Card>
+             <div style="text-align:center">
+                  <p>我关注的<Button type="text" style="color:green">{{myFocus}}</Button></p>
+                  <p>关注我的<Button type="text" style="color:green">{{myFans}}</Button></p>
+             </div>
+          </Card>
+
+          <Card class="left-card">
+            <div class="card-title">
+                <Button type="ghost" size="small">文章类别</Button>
+            </div>
+             <div style="text-align:center">
+                  <p v-for="o in 10"><Tag color="green">类别 {{o}}</Tag></p>
+             </div>
+          </Card>
+
+          <Card class="left-card">
+            <div class="card-title">
+                <Button type="ghost" size="small">日期轨迹</Button>
+            </div>
+             <div style="text-align:center">
+                  <p v-for="o in 10"><Tag color="green">2017年 {{o}}月</Tag></p>
+             </div>
+          </Card>
         </div>
       </Col>
 
       <Col :xs="24" :sm="14" :md="16" :lg="19">
-        <div class="main-right">
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span class="right-content-title fa fa-list-alt">&nbsp;&nbsp;我的博客</span>
-              <el-button style="float: right;" type="text" class="fa fa-file-code-o" >&nbsp;新建博客</el-button>
-            </div>
-            <div v-for="o in 4" class="text item">
-              <a href="#">{{'列表内容 ' + o }}</a>
-            </div>
-          </el-card>
-
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span class="right-content-title fa fa-newspaper-o">&nbsp;&nbsp;我的头条</span>
-              <el-button style="float: right;" type="text" class="fa fa-file-text">&nbsp;新建头条</el-button>
-            </div>
-            <div v-for="o in 4" class="text item">
-              <a href="#">{{'列表内容 ' + o }}</a>
-            </div>
-          </el-card>
-
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span class="right-content-title fa fa-question-circle">&nbsp;&nbsp;我的问答</span>
-              <el-button style="float: right;" type="text" class="fa fa-question">&nbsp;新建提问</el-button>
-            </div>
-            <div v-for="o in 4" class="text item">
-              <a href="#">{{'列表内容 ' + o }}</a>
-            </div>
-          </el-card>
+        <div class="details">
+          <transition name="move" mode="out-in"><router-view></router-view></transition>
         </div>
       </Col>
+
     </Row>
   </div>
 </template>
@@ -53,8 +64,22 @@
 export default {
   data() {
     return {
-      name:"姓名"
+      name:"姓名",
+      myFocus: 20,
+      myFans: 50
     };
+  },
+  methods: {
+    selfdetails(userId){
+      console.log(userId);
+      let args = {
+        name: 'selfDetails',
+        params: {
+          userId: userId
+        }
+      }
+      this.$router.push(args);
+    }
   }
 }
 </script>
@@ -75,6 +100,11 @@ export default {
     width: 100%;
     margin: auto;
     overflow-y: hidden;
+  }
+
+  .left-card {
+    width:90%;
+    margin: 10px;
   }
 
   /*.content {
