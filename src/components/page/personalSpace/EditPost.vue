@@ -21,8 +21,8 @@
 </template>
 
 <script>
-  import vMarkdown from './Markdown.vue';
-  import vVueEditor from './VueEditor.vue';
+  import vMarkdown from '../editor/Markdown.vue';
+  import vVueEditor from '../editor/VueEditor.vue';
   export default{
     data(){
       return {

@@ -19,7 +19,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
-                          <span class="el-icon-menu">&nbsp;&nbsp;个人中心</span>
+                          <span class="el-icon-menu" @click="personalSpace()">&nbsp;&nbsp;个人中心</span>
                     </el-dropdown-item>
                     <el-dropdown-item command="loginout">
                       <span class="fa fa-sign-out">&nbsp;&nbsp;退出</span>
@@ -72,6 +72,10 @@
             backHome() {
               console.log("返回首页");
               this.$router.push('/homePage');
+            },
+            personalSpace() {
+              console.log("个人空间");
+              this.$router.push('/personal-space');
             }
         }
     }

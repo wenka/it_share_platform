@@ -21,8 +21,9 @@
             </div>
 
              <div style="text-align:center">
-                 <img src="../../../../static/img/img.jpg" class="header-img">
+                 <img src="../../../../static/img/img.jpg" class="header-img" @click="editAvatar()">
                  <p><h3>{{ name }}</h3></p>
+
              </div>
              <div style="text-align:center">
                   <p>我关注的<Button type="text" style="color:green">{{myFocus}}</Button></p>
@@ -57,31 +58,54 @@
       </Col>
 
     </Row>
+    <Modal
+      v-model="editAvatarView"
+      title="修改头像"
+      @on-ok="ok"
+      @on-cancel="cancel">
+      <upload-picture></upload-picture>
+    </Modal>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      name:"姓名",
-      myFocus: 20,
-      myFans: 50
-    };
-  },
-  methods: {
-    selfdetails(userId){
-      console.log(userId);
-      let args = {
-        name: 'selfDetails',
-        params: {
-          userId: userId
+  import uploadPicture from '../upload/UploadPicture.vue';
+  export default {
+    data() {
+      return {
+        editAvatarView: false,
+        name:"姓名",
+        myFocus: 20,
+        myFans: 50
+      };
+    },
+    components: {
+      uploadPicture
+    },
+    methods: {
+      selfdetails(userId){
+        console.log(userId);
+        let args = {
+          name: 'selfDetails',
+          params: {
+            userId: userId
+          }
         }
+        this.$router.push(args);
+      },
+      editAvatar() {
+        console.log("修改头像");
+        this.editAvatarView = true;
+        console.log(this.editAvatarView);
+      },
+      ok () {
+          this.$Message.info('点击了确定');
+      },
+      cancel () {
+          this.$Message.info('点击了取消');
       }
-      this.$router.push(args);
     }
   }
-}
 </script>
 
 
@@ -94,6 +118,13 @@ export default {
     width: 100px;
     height: 100%;
     border-radius: 50%;
+  }
+
+  .header-img:hover {
+    border: green;
+    border-width: 1px;
+    border-style:outset;
+    cursor: pointer;
   }
 
   .main-personal-info {
