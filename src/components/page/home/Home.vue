@@ -146,12 +146,12 @@ export default {
       },
       PersonalSpace(){
         console.log("个人空间");
-        var username = localStorage.getItem('ms_username');
-        console.log(username);
-        if (!username || username == undefined || username == "") {
+        let meId = localStorage.getItem("me-id");
+        console.log(meId);
+        if (meId) {
+            this.$router.push("/personal-space");
+        }else{
             this.$router.push('/login');
-        }else {
-            this.$router.push('/personal-space');
         }
       }
     },

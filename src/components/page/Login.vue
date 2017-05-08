@@ -38,15 +38,28 @@
         },
         methods: {
             submitForm(formName) {
+
+                var args = {
+                    "account": this.ruleForm.username,
+                    "password": this.ruleForm.password,
+                    "remberme": true
+                }
                 const self = this;
+                console.log(JSON.stringify(args));
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        localStorage.setItem('ms_username',self.ruleForm.username);
-                        self.$router.push('/homePage');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
+                        this.$http.get('it/user/login',{params:args}).then(response => {
+                            console.log(response.body);
+                            localStorage.setItem("me-id",response.body.id);
+                            localStorage.setItem("me-name",response.body.name);
+                            this.$router.push("/homePage");
+                        }, response => {
+                            this.$message.error(response.body.developerMessage);
+                        });    
+                    }else{
+                        this.$message.error("请正确填写用户名或密码");
                     }
+                    
                 });
             }
         }

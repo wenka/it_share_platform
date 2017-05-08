@@ -33,21 +33,22 @@
     export default {
         data() {
             return {
-                name: 'linxin',
+                name: '未登陆',
                 active: false,
                 param: ""
             }
         },
         computed:{
             username(){
-                let username = localStorage.getItem('ms_username');
+                let username = localStorage.getItem('me-name');
                 return username ? username : this.name;
             }
         },
         methods:{
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
+                    localStorage.removeItem('me-id');
+                    localStorage.removeItem('me-name');
                     this.$router.push('/login');
                 }
             },

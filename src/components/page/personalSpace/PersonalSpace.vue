@@ -17,12 +17,12 @@
           <Card class="left-card">
 
             <div class="card-title">
-                <Button type="ghost" size="small" @click="selfdetails('123456789')">个人资料</Button>
+                <Button type="ghost" size="small" @click="selfdetails(me.id)">个人资料</Button>
             </div>
 
              <div style="text-align:center">
                  <img src="../../../../static/img/img.jpg" class="header-img" @click="editAvatar()">
-                 <p><h3>{{ name }}</h3></p>
+                 <p><h3>{{ me.name }}</h3></p>
 
              </div>
              <div style="text-align:center">
@@ -74,11 +74,18 @@
     data() {
       return {
         editAvatarView: false,
-        name:"姓名",
         myFocus: 20,
-        myFans: 50
+        myFans: 50,
+        me: {
+          id: localStorage.getItem("me-id"),
+          name: localStorage.getItem("me-name")
+        }
       };
     },
+    // computed: {
+    //   me.id = localStorage.getItem("me-id");
+    //   me.name = localStorage.getItem("me-name");
+    // },
     components: {
       uploadPicture
     },

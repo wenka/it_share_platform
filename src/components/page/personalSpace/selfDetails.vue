@@ -11,6 +11,9 @@
         <!-- 用户资料详情表单begin -->
         <div>
           <Form ref="user" :model="user" :rules="ruleValidate" :label-width="80">
+              <Form-item label="id" prop="id" v-show="false">
+                  <Input v-model="user.id" placeholder="请输入姓名"></Input>
+              </Form-item>
               <Form-item label="姓名" prop="name">
                   <Input v-model="user.name" placeholder="请输入姓名"></Input>
               </Form-item>
@@ -117,6 +120,16 @@
     },
     created: function(){
       this.user.id = this.$route.params.userId;
+      this.$http.get('it/user/' + this.user.id).then(response => {
+          console.log(response.body);
+          this.user = response.body;
+      }, response => {
+          let errorMsg = response.body.developerMessage;
+          this.$message.error(errorMsg);
+          if (errorMsg.indexOf("未认证") > -1) {
+            this.$router.push("/login");
+          }
+      });
     },
     methods: {
            handleSubmit (name) {

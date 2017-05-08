@@ -28,11 +28,11 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/api':{
-                target:'http://jsonplaceholder.typicode.com',
+            '/it':{
+                target:'http://192.168.0.119:8082',
                 changeOrigin:true,
                 pathRewrite:{
-                    '/api':''
+                    '^/it':'/it'
                 }
             }
         },
