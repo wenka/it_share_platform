@@ -15,7 +15,7 @@
                   <Input v-model="user.id" ></Input>
               </Form-item>
               <Form-item label="账户" prop="account">
-                  <Input v-model="user.name" placeholder="请输入账户"></Input>
+                  <Input v-model="user.account" placeholder="请输入账户"></Input>
               </Form-item>
               <Form-item label="姓名" prop="name">
                   <Input v-model="user.name" placeholder="请输入姓名"></Input>
@@ -67,7 +67,7 @@
            	state: '',
             email: '',
             address: '',
-            gender: '',
+            gender: 'none',
             remark: ''
         },
         ruleValidate: {
@@ -82,8 +82,7 @@
                 { required: false, message: '请选择性别', trigger: 'change' }
             ],
             remark: [
-                { required: false, message: '请输入个人介绍', trigger: 'blur' },
-                { type: 'string', min: 20, message: '介绍不能少于20字', trigger: 'blur' }
+                { required: false, message: '请输入个人介绍', trigger: 'blur' }
             ]
           }
       };
@@ -111,13 +110,13 @@
                    		 	this.$Message.success('提交成功!');
                    		 	this.submitbtn = true;
 	                   	},response => {
+	                   		this.submitbtn = true;
 	                   		let errorMsg = response.body.developerMessage;
 					        this.$message.error(errorMsg);
 					        if (errorMsg.indexOf("未认证") > -1) {
 					            this.$router.push("/login");
 			          		}
 	                   		this.$Message.success('保存失败!');
-	                   		this.submitbtn = true;
 	                   	}
                    	);
                    } else {
