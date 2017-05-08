@@ -34,7 +34,7 @@
                   </Radio-group>
               </Form-item>
               <Form-item label="介绍" prop="remark">
-                  <Input v-model="user.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入...">
+                  <Input v-model="user.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入个人简介...">
                   	
                   </Input>
               </Form-item>
