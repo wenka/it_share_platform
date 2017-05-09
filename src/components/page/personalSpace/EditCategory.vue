@@ -20,13 +20,34 @@
 	export default{
 		data: function(){
 			return{
+				getUrl: "it/category/getByUser",
 				saveUrl: "it/category/",
 				category: {
 					id: "",
 					name:"",
-					categoryType: "类别"
-				}	
+					categoryType: "类别",
+					creator: {
+						id: localStorage.getItem("me-id"),
+	         			name: localStorage.getItem("me-name")
+					}
+				},
+				categoryItems:[]
 			}
+		},
+		created: function(){
+			this.$http.get(this.getUrl).then(
+				response => {
+					this.categoryItems = response.body;
+					console.log(this.categoryItems);
+				},
+				response => {
+					let errorMsg = response.body.developerMessage;
+	                this.$message.error(errorMsg);
+	                if (errorMsg.indexOf("未认证") > -1) {
+	                    this.$router.push("/login");
+	                }
+				}
+			);
 		},
 		methods: {
 			save(){
@@ -37,6 +58,7 @@
 				this.$http.post(this.saveUrl,JSON.stringify(this.category)).then(
 		            response => {
 		                this.$Message.success('保存成功!');
+		                this.categoryItems.push(this.category);
 		            },
 		            response => {
 		                let errorMsg = response.body.developerMessage;
