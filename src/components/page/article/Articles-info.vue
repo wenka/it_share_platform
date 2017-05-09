@@ -11,9 +11,9 @@
             <h3>文章内容</h3>
             <div class="visit-number"><el-button type="primary" >访客量：100</el-button></div>
             <article style="text-indent: 35px;">
-                <h1>{{title}}</h1>
+                <h1>{{acticle.title}}</h1>
                 <h2>文章副标题</h2>
-                <p>{{content}}</p>
+                <p>{{acticle.content}}</p>
                 <div class="acticle-share">
                     <el-button type="primary" icon="share" size="mini" class="share-button">  分享</el-button>
                 </div>
@@ -116,9 +116,10 @@
         data(){
             return {
               acticle:{
-                acticleContent: '',
-                acticleTitle: '',
-                acticleAuthor: ''
+                id: '',
+                content: '',
+                title: '',
+                author: ''
               },
               active: false,
               tags: [
@@ -141,16 +142,9 @@
               ]
             }
         },
-        computed :{
-            authorName(){
-              return localStorage.getItem('acticle_author');
-            },
-            title(){
-              return localStorage.getItem('acticle_title');
-            },
-            content(){
-              return localStorage.getItem('acticle_content');
-            }
+        created: function(){
+          this.acticle.id = this.$route.params.userId;
+          console.log(this.acticle);
         },
         methods:{
           pay(){

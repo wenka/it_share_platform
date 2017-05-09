@@ -42,6 +42,7 @@ export default new Router({
                     component: resolve => require(['../components/page/article/Articles.vue'],resolve) //文章列表
                 },
                 {
+                    name: 'articleInfo',
                     path: '/article-info',
                     component: resolve => require(['../components/page/article/Articles-info.vue'],resolve) //文章详情
                 },
