@@ -10,7 +10,7 @@
 
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
       <el-tab-pane label="富文本编辑器" name="editor-edit">
-        <v-vue-editor></v-vue-editor>
+        <v-vue-editor :post-type="postType"></v-vue-editor>
       </el-tab-pane>
 
       <el-tab-pane label="MarkDown编辑器" name="md-edit">
@@ -23,6 +23,7 @@
 <script>
   import vMarkdown from '../editor/Markdown.vue';
   import vVueEditor from '../editor/VueEditor.vue';
+
   export default{
     data(){
       return {

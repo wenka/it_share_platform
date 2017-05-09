@@ -112,18 +112,18 @@
 	                   	},response => {
 	                   		this.submitbtn = true;
 	                   		let errorMsg = response.body.developerMessage;
-					        this.$message.error(errorMsg);
-					        if (errorMsg.indexOf("未认证") > -1) {
-					            this.$router.push("/login");
-			          		}
-	                   		this.$Message.success('保存失败!');
-	                   	}
-                   	);
-                   } else {
-                       this.$Message.error('表单验证失败!');
-                       this.submitbtn = true;
-                   }
-               })
+					              this.$message.error(errorMsg);
+      					        if (errorMsg.indexOf("未认证") > -1) {
+      					            this.$router.push("/login");
+      			          	}
+      	                this.$Message.success('保存失败!');
+      	             }
+                    );
+                 } else {
+                     this.$Message.error('表单验证失败!');
+                     this.submitbtn = true;
+                 }
+             })
            },
            handleReset (name) {
                this.$refs[name].resetFields();
