@@ -38,8 +38,14 @@
   export default {
     data() {
       return {
-
+        getPostListUrl: 'it/post/getList',
+        blogItems: [],
+        headlinesItems: [],
+        qaItems: []
       };
+    },
+    created: function(){
+
     },
     methods: {
       newEdit(type) {
@@ -52,6 +58,27 @@
         }
         this.$router.push(args);
       }
+    },
+    //获取文章列表
+    getPostList(postType){
+      console.log(postType);
+      let args = {
+          param: "",
+          postType: postType,
+          states: "1"
+      }
+      this.$http.get(this.getPostListUrl,{params:args}).then(
+        response => {
+          console.log(response.body);
+        },
+        response => {
+          let errorMsg = response.body.developerMessage;
+          this.$message.error(errorMsg);
+          if (errorMsg.indexOf("未认证") > -1) {
+              this.$router.push("/login");
+          }
+        }
+      );
     }
   }
 </script>

@@ -13,7 +13,11 @@
                     <Input v-model="post.title" />
                 </Form-item>
                 <Form-item label="类别" >
-                    <!-- <Input v-model="post.category.name" /> -->
+                    <Input v-model="post.category.id" v-show="false" disabled/>
+                    <Input v-model="post.category.name" disabled/>
+                    <Tag v-for="item in categoryItems" closable  type="dot" color="green" @on-close="addCategoryToForm(item)" >
+                        {{ item.name }}
+                    </Tag>
                     <el-button type="success" icon="edit" size="mini" @click="addCategory()">添加类别</el-button>
                 </Form-item>
             </Form>
@@ -27,7 +31,7 @@
           title="编辑类别"
           @on-ok="ok"
           @on-cancel="cancel">
-          <v-edit-category></v-edit-category>
+          <v-edit-category v-on:category-changes="listenCategoryChange"></v-edit-category>
         </Modal>
     </div>
 </template>
@@ -42,26 +46,28 @@
         ],
         data: function(){
             return {
+                getCategoryUrl: 'it/category/getByUser',
                 saveUrl: 'it/post/',
                 submitbtn: true,
                 editCategoryView: false,
                 editorOption: {
                     // something config
                 },
-                category:{
-                    id: "",
-                    name: ""
-                },
                 post: {
                     title: "",
                     postType: "",
-                    content: ""
+                    content: "",
+                    category:{
+                        id: "",
+                        name: ""
+                    },
                 },
                 ruleValidate: {
                     title: [
                         { required: true, message: '标题不能为空', trigger: 'blur' }
                     ]
-                }
+                },
+                categoryItems: []
             }
         },
         components: {
@@ -70,6 +76,19 @@
         created: function(){
             console.log(this.postType);
             this.post.postType = this.postType;
+            this.$http.get(this.getCategoryUrl).then(
+                response => {
+                    this.categoryItems = response.body;
+                    console.log(this.categoryItems);
+                },
+                response => {
+                    let errorMsg = response.body.developerMessage;
+                    this.$message.error(errorMsg);
+                    if (errorMsg.indexOf("未认证") > -1) {
+                        this.$router.push("/login");
+                    }
+                }
+            );
         },
         methods: {
             addCategory(){
@@ -84,13 +103,15 @@
             onEditorChange({ editor, html, text }) {
                 this.post.content = html;
             },
+            //提交表单
             submit(post){
                 this.submitbtn = false;
                 console.log(this.post);
                 this.$refs[post].validate((valid) => {
                     if (valid) {
-                        if(this.category.name != ""){
-                            this.post.category = this.category;
+                        if (this.post.category.id == "") {
+                            this.$message.error("请选择类别");
+                            return;
                         }
                         this.$http.post(this.saveUrl,JSON.stringify(this.post)).then(
                             response => {
@@ -106,11 +127,21 @@
                             }
                         );
                     }else{
-                        this.$message.error("请填写标题和类别");
+                        this.$message.error("请填写标题");
                     }
                     
                 });
                 this.submitbtn = true;
+            },
+            //将选择的类别添加到表单
+            addCategoryToForm(category){
+                console.log(category);
+                this.post.category.id = category.id;
+                this.post.category.name = category.name;
+            },
+            //监听 categoryItems 变化
+            listenCategoryChange(categoryItems){
+                this.categoryItems = categoryItems;
             }
         },
         computed: {
