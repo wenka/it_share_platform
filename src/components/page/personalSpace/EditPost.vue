@@ -14,7 +14,7 @@
       </el-tab-pane>
 
       <el-tab-pane label="MarkDown编辑器" name="md-edit">
-        <v-markdown></v-markdown>
+        <v-markdown :post-type="postType"></v-markdown>
       </el-tab-pane>
     </el-tabs>
   </div>

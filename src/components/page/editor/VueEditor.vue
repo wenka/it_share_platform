@@ -14,10 +14,11 @@
                 </Form-item>
                 <Form-item label="类别" >
                     <Input v-model="post.category.id" v-show="false" disabled/>
-                    <Input v-model="post.category.name" disabled/>
-                    <Tag v-for="item in categoryItems" closable  type="dot" color="green" @on-close="addCategoryToForm(item)" >
+                    <Input v-model="post.category.name" readonly/>
+                    <label>选择类别：&nbsp;</label>
+                    <Button v-for="item in categoryItems" @click="addCategoryToForm(item)" icon="pricetag"  size="small">
                         {{ item.name }}
-                    </Tag>
+                    </Button>
                     <el-button type="success" icon="edit" size="mini" @click="addCategory()">添加类别</el-button>
                 </Form-item>
             </Form>
@@ -61,6 +62,7 @@
                         id: "",
                         name: ""
                     },
+                    state: 1
                 },
                 ruleValidate: {
                     title: [

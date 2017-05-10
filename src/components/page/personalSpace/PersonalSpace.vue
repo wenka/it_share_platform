@@ -70,8 +70,8 @@
           title="编辑类别"
           @on-ok="ok"
           @on-cancel="cancel">
-          <v-edit-category"></v-edit-category>
-        </Modal>
+          <v-edit-category></v-edit-category>
+    </Modal>
   </div>
 </template>
 
