@@ -116,7 +116,7 @@
   }
 
   .box-card {
-    width: 100%;
+    width: 95%;
     margin: 10px;
     max-height: 1000px;
   }

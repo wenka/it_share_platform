@@ -39,15 +39,17 @@
                 <Tag v-for="item in categoryItems" color="blue">{{item.name}}</Tag>
              </div>
           </Card>
-<!-- 
+
           <Card class="left-card">
             <div class="card-title">
-                <Button type="ghost" size="small">日期轨迹</Button>
+                <Button type="ghost" size="small" @click="totalChartsView()">统计</Button>
             </div>
              <div style="text-align:center">
-                  <p v-for="o in 10"><Tag color="green">2017年 {{o}}月</Tag></p>
+                  <p><el-button type="text">博客({{ blogCounts }})</el-button></p>
+                  <p><el-button type="text">头条({{ headlineCounts }})</el-button></p>
+                  <p><el-button type="text">提问({{ qaCounts }})</el-button></p>
              </div>
-          </Card> -->
+          </Card>
         </div>
       </Col>
 
@@ -81,6 +83,7 @@
   export default {
     data() {
       return {
+        getPostListSizeUrl: 'it/post/getListSize',
         getUrl: 'it/category/getByUser',
         editAvatarView: false,
         editCategoryView: false,
@@ -90,18 +93,20 @@
           id: localStorage.getItem("me-id"),
           name: localStorage.getItem("me-name")
         },
-        categoryItems:[]
+        categoryItems:[],
+        blogCounts: 0,
+        headlineCounts: 0,
+        qaCounts: 0
       };
     },
-    // computed: {
-    //   me.id = localStorage.getItem("me-id");
-    //   me.name = localStorage.getItem("me-name");
-    // },
     components: {
       uploadPicture,vEditCategory
     },
     created: function(){
       this.getCategoryItmes();
+      this.getPostListSize("博客");
+      this.getPostListSize("头条");
+      this.getPostListSize("提问");
     },
     methods: {
       selfdetails(userId){
@@ -127,7 +132,8 @@
       },
       //展示类别view
       showCategoryView(){
-        this.editCategoryView = false;
+        // this.editCategoryView = false;
+        this.$router.push("/edit-category");
       },
       //获取类别
       getCategoryItmes(){
@@ -148,6 +154,51 @@
       //刷新页面数据
       flushPage(){
         this.getCategoryItmes();
+        this.getPostListSize("博客");
+        this.getPostListSize("头条");
+        this.getPostListSize("提问");
+      },
+      getPostListSize(postType){
+        console.log(postType);
+        let args = {
+            param: "",
+            postType: postType,
+            states: "1"
+        }
+        this.$http.get(this.getPostListSizeUrl,{params:args}).then(
+          response => {
+            if (postType == "博客") {
+              this.blogCounts = response.body;
+              console.log(this.blogCounts);
+            }else if(postType == "头条"){
+              this.headlineCounts = response.body;
+              console.log(this.headlineCounts);
+            }else if(postType == "提问"){
+              this.qaCounts = response.body;
+              console.log(this.qaCounts);
+            }
+          },
+          response => {
+            let errorMsg = response.body.developerMessage;
+            this.$message.error(errorMsg);
+            if (errorMsg.indexOf("未认证") > -1) {
+                this.$router.push("/login");
+            }
+          }
+        );
+      },
+      //跳转统计视图
+      totalChartsView(){
+        console.log("统计视图");
+        let args = {
+          name: 'totalCharts',
+          params: {
+            blogCounts: this.blogCounts,
+            headlineCounts: this.headlineCounts,
+            qaCounts: this.qaCounts
+          }
+        };
+        this.$router.push(args);
       }
     }
   }
@@ -183,8 +234,6 @@
     margin: 10px;
   }
 
-  /*.content {
-    width: 100%;
-    background-color: #EEEEEE;
-  }*/
+  .content {
+  }
 </style>

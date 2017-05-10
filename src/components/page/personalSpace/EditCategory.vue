@@ -1,5 +1,12 @@
 <template>
 	<div>
+		<div class="crumbs">
+	        <el-breadcrumb separator="/">
+	            <el-breadcrumb-item>
+	                <el-button disabled class="fa fa-tags" type="text">&nbsp;&nbsp;类别管理</el-button>
+	            </el-breadcrumb-item>
+	        </el-breadcrumb>
+	    </div>
 		<Row>
 			<Col :xs="24" :sm="24" :md="24" :lg="24">
 				<Form>

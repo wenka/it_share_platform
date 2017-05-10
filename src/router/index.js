@@ -63,6 +63,15 @@ export default new Router({
                           name: 'selfDetails',
                           path: '/self-details/:userId',
                           component: resolve => require(['../components/page/personalSpace/selfDetails.vue'],resolve) //个人资料详情页
+                      },
+                      {
+                          name: 'totalCharts',
+                          path: '/total-charts',
+                          component: resolve => require(['../components/page/personalSpace/totalCharts.vue'],resolve) //统计页面
+                      },
+                      {
+                          path: '/edit-category',
+                          component: resolve => require(['../components/page/personalSpace/EditCategory.vue'],resolve) //统计页面
                       }
                     ]
                 }
