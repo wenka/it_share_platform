@@ -1,4 +1,7 @@
-<!-- 个人空间首页 -->
+<!-- 
+	个人空间首页
+	@author 文卡
+ -->
 <template>
   <div class="main-personal-info">
     <div class="crumbs">
@@ -83,12 +86,13 @@
   export default {
     data() {
       return {
-        getPostListSizeUrl: 'it/post/getListSize',
+      	getRelationCountsUrl: 'it/userFans/listSize',
+        getPostListSizeUrl: 'it/post/getListSize', 
         getUrl: 'it/category/getByUser',
         editAvatarView: false,
         editCategoryView: false,
-        myFocus: 20,
-        myFans: 50,
+        myFocus: 0, //我关注的
+        myFans: 0, //关注我的
         me: {
           id: localStorage.getItem("me-id"),
           name: localStorage.getItem("me-name")
@@ -154,9 +158,13 @@
       //刷新页面数据
       flushPage(){
         this.getCategoryItmes();
+        //查询统计文章数量
         this.getPostListSize("博客");
         this.getPostListSize("头条");
         this.getPostListSize("提问");
+        //查询我的用户关系数量
+        this.getRelationCounts("myFans");
+        this.getRelationCounts("myFocus");
       },
       getPostListSize(postType){
         console.log(postType);
@@ -199,6 +207,33 @@
           }
         };
         this.$router.push(args);
+      },
+      //查询用户关系(数量)
+      getRelationCounts(direction){
+      	//direction: me 我关注的 focusMe 关注我的
+      	console.log(direction);
+      	let args = {
+      		direction: direction
+      	}
+      	this.$http.get(this.getRelationCountsUrl,{params:args}).then(
+      		response => {
+      			if (direction == "myFocus") {
+      				this.myFocus = response.body;
+      				console.log(this.myFocus);
+      			}
+      			else if(direction == "myFans"){
+      				this.myFans = response.body;
+      				console.log(this.myFans);
+      			}
+      		},
+      		response => {
+      			let errorMsg = response.body.developerMessage;
+	            this.$message.error(errorMsg);
+	            if (errorMsg.indexOf("未认证") > -1) {
+	                this.$router.push("/login");
+	            }
+      		}
+      	);
       }
     }
   }
