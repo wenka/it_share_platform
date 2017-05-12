@@ -48,9 +48,9 @@
                 <Button type="ghost" size="small" @click="totalChartsView()">统计</Button>
             </div>
              <div style="text-align:center">
-                  <p><el-button type="text" @click="lookMorePost('博客')" >博客({{ blogCounts }})</el-button></p>
-                  <p><el-button type="text" @click="lookMorePost('头条')">头条({{ headlineCounts }})</el-button></p>
-                  <p><el-button type="text" @click="lookMorePost('提问')">提问({{ qaCounts }})</el-button></p>
+                  <p><el-button type="text" @click="lookMorePost('博客')" ><span class="fa fa-list-alt"></span>&nbsp;博客({{ blogCounts }})</el-button></p>
+                  <p><el-button type="text" @click="lookMorePost('头条')"><span class="fa fa-newspaper-o"></span>&nbsp;头条({{ headlineCounts }})</el-button></p>
+                  <p><el-button type="text" @click="lookMorePost('提问')"><span class="fa fa-question-circle"></span>&nbsp;提问({{ qaCounts }})</el-button></p>
              </div>
           </Card>
         </div>
@@ -107,10 +107,7 @@
       uploadPicture,vEditCategory
     },
     created: function(){
-      this.getCategoryItmes();
-      this.getPostListSize("博客");
-      this.getPostListSize("头条");
-      this.getPostListSize("提问");
+      this.flushPage();
     },
     methods: {
       selfdetails(userId){
@@ -237,7 +234,7 @@
       },
       //查询个人post类别
       lookMorePost(postType){
-          console.log(postType);
+          console.log(postType + Math.random());
           let args = {
             name: "timerLine",
             params: {

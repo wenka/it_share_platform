@@ -41,11 +41,11 @@ export default new Router({
                     path: '/article',
                     component: resolve => require(['../components/page/article/Articles.vue'],resolve) //文章列表
                 },
-                {
-                    name: 'articleInfo',
-                    path: '/article-info',
-                    component: resolve => require(['../components/page/article/Articles-info.vue'],resolve) //文章详情
-                },
+                // {
+                //     name: 'articleInfo',
+                //     path: '/article-info',
+                //     component: resolve => require(['../components/page/article/Articles-info.vue'],resolve) //文章详情
+                // },
                 {
                     path: '/personal-space',
                     component: resolve => require(['../components/page/personalSpace/PersonalSpace.vue'],resolve), //个人空间
@@ -72,13 +72,26 @@ export default new Router({
                       {
                           path: '/edit-category',
                           component: resolve => require(['../components/page/personalSpace/EditCategory.vue'],resolve) //统计页面
+                      },
+                      {
+                          name: "timerLine",
+                          path: '/timerLine/:postType',
+                          component: resolve => require(['../components/page/article/TimerLineList.vue'],resolve)
                       }
                     ]
                 },
                 {
-                    name: "timerLine",
-                    path: '/timerLine',
-                    component: resolve => require(['../components/page/article/TimerLineList.vue'],resolve)
+                    name: "othersSpace",
+                    path: '/othersSpace/:postId',
+                    component: resolve => require(['../components/page/othersSpace/OthersSpace.vue'],resolve)
+                    // ,
+                    // children: [
+                    //     {
+                    //         name: 'articleInfo',
+                    //         path: '/',
+                    //         component: resolve => require(['../components/page/article/Articles-info.vue'],resolve) //文章详情
+                    //     }
+                    // ]
                 }
             ]
         },

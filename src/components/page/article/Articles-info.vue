@@ -9,11 +9,11 @@
         </div>
         <div class="ms-doc">
             <h3>文章内容</h3>
-            <div class="visit-number"><el-button type="primary" >访客量：100</el-button></div>
+            <div class="visit-number"><el-button type="primary" >访客量：{{ post.viewCount }}</el-button></div>
             <article style="text-indent: 35px;">
-                <h1>{{acticle.title}}</h1>
-                <h2>文章副标题</h2>
-                <p>{{acticle.content}}</p>
+                <h1>{{post.title}}</h1>
+                <!-- <h2>文章副标题</h2> -->
+                <p v-html="post.content"></p>
                 <div class="acticle-share">
                     <el-button type="primary" icon="share" size="mini" class="share-button">  分享</el-button>
                 </div>
@@ -113,38 +113,19 @@
 
 <script>
     export default {
+        props:[
+            'post'
+        ],
         data(){
             return {
-              acticle:{
-                id: '',
-                content: '',
-                title: '',
-                author: ''
-              },
+              getPostInfoUrl: 'it/post/',
               active: false,
               tags: [
-                 { name: '标签一', type: '' },
-                 { name: '标签二', type: 'gray' },
-                 { name: '标签三', type: 'primary' },
-                 { name: '标签四', type: 'success' },
-                 { name: '标签五', type: 'warning' },
-                 { name: '标签六', type: 'danger' },
-                 { name: '标签七', type: 'warning' },
-                 { name: '标签八', type: 'warning' },
-                 { name: '标签九', type: 'warning' },
-                 { name: '标签十', type: 'warning' },
-                 { name: '标签十一', type: 'warning' },
-                 { name: '标签十二', type: 'warning' },
-                 { name: '标签十三', type: 'warning' },
-                 { name: '标签十四', type: 'warning' },
-                 { name: '标签十五', type: 'warning' },
-                 { name: '标签十六', type: 'warning' }
               ]
             }
         },
         created: function(){
-          let postId = this.$route.params.postId;
-          console.log(postId);
+          console.log(this.post);
         },
         methods:{
           pay(){
@@ -159,6 +140,18 @@
                message: '评论成功',
                type: 'success'
              });
+          },
+          //通过id读取post
+          getPost(postId){
+            console.log(postId);
+            this.$http.get(this.getPostInfoUrl + postId).then(
+              response => {
+                this.post = response.body;
+              },
+              response => {
+
+              }
+            );
           }
         }
     }

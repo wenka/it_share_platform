@@ -2,11 +2,11 @@
 	<div  class="wraper" @scroll="onScroll($event)">
     <div class="crumbs">
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item>
+            <!-- <el-breadcrumb-item>
               <router-link to="/personal-space">
                 <el-button class="fa fa-address-card" type="text">&nbsp;&nbsp;我的空间</el-button>
               </router-link>
-            </el-breadcrumb-item>
+            </el-breadcrumb-item> -->
             <el-breadcrumb-item>
               <el-button class="fa fa-address-card" type="text">&nbsp;&nbsp;{{ postType }}</el-button>
             </el-breadcrumb-item>
@@ -23,7 +23,7 @@
 					<h2>{{ item.title }}</h2>
 					<p v-html="item.content"></p>
 					<!-- <a class="cd-read-more">阅读更多</a> -->
-          <router-link :to="{ name: 'articleInfo', params: { postId: item.id }}"><a class="cd-read-more">阅读更多</a></router-link>
+          <router-link :to="{ name: 'othersSpace', params: { postId: item.id }}"><a class="cd-read-more">阅读更多</a></router-link>
 					<span class="cd-date">{{ item.createTime }}</span>
 				</div> <!-- cd-timeline-content -->
 			</div> <!-- cd-timeline-block -->
@@ -48,10 +48,7 @@
 			// 		$(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
 			// 	}
 			// });
-      let postType = this.$route.params.postType;
-      this.postType = postType;
-      console.log(this.postType);
-      this.getPostList(this.postType);
+       this.init();
 		},
 		methods: {
 			onScroll(event){
@@ -60,6 +57,7 @@
 			//			$(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
 			//		}
 			//	});
+       
 			},
      //获取文章列表
       getPostList(postType){
@@ -82,8 +80,20 @@
             }
           }
         );
+      },
+      //初始化
+      init() {
+        console.log(this.$route.path);
+        let postType = this.$route.params.postType;
+        this.postType = postType;
+        this.getPostList(this.postType);
       }
     },
+    watch: {
+     // 如果路由有变化，会再次执行该方法
+     "$route.params": "init"
+     // "$route.path": "init"
+    }
 	}
 
 </script>
