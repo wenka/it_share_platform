@@ -29,12 +29,10 @@
 	                    {
 	                        name: '销量',
 	                        type: 'pie',
-	                        radius : '55%',
+	                        radius : '50%',
 	                        center: ['50%', '50%'],
 	                        data:[
-	                            {value:335, name:'博客'},
-	                            {value:310, name:'头条'},
-	                            {value:234, name:'提问'}
+	                           
 	                        ],
 	                        itemStyle: {
 	                            emphasis: {
@@ -50,6 +48,16 @@
 		},
 		components: {
 			IEcharts
+		},
+		created: function(){
+			console.log(this.$route.params);
+			let blogCounts = this.$route.params.blogCounts;
+			let headlineCounts = this.$route.params.headlineCounts;
+			let qaCounts = this.$route.params.qaCounts;
+			this.pie.series[0].data.push({value:blogCounts,name:'博客'});
+			this.pie.series[0].data.push({value:headlineCounts,name:'头条'});
+			this.pie.series[0].data.push({value:qaCounts,name:'提问'});
+			console.log(this.pie.series[0]);
 		}
 	}
 </script>

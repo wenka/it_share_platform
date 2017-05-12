@@ -48,9 +48,9 @@
                 <Button type="ghost" size="small" @click="totalChartsView()">统计</Button>
             </div>
              <div style="text-align:center">
-                  <p><el-button type="text">博客({{ blogCounts }})</el-button></p>
-                  <p><el-button type="text">头条({{ headlineCounts }})</el-button></p>
-                  <p><el-button type="text">提问({{ qaCounts }})</el-button></p>
+                  <p><el-button type="text" @click="lookMorePost('博客')" >博客({{ blogCounts }})</el-button></p>
+                  <p><el-button type="text" @click="lookMorePost('头条')">头条({{ headlineCounts }})</el-button></p>
+                  <p><el-button type="text" @click="lookMorePost('提问')">提问({{ qaCounts }})</el-button></p>
              </div>
           </Card>
         </div>
@@ -234,6 +234,17 @@
 	            }
       		}
       	);
+      },
+      //查询个人post类别
+      lookMorePost(postType){
+          console.log(postType);
+          let args = {
+            name: "timerLine",
+            params: {
+              postType:postType
+            }
+          };
+          this.$router.push(args);
       }
     }
   }
