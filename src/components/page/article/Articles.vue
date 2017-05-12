@@ -3,7 +3,7 @@
   <div  class="wraper" @scroll="onScroll($event)">
     <el-row @scroll="onScroll($event)">
           <!-- <el-card v-for="(o, index) in 10" :offset="index > 0 ? 10 : 0"> -->
-          <el-card v-for="acticle in items">
+          <el-card v-for="item in 10">
             <Row>
               <Col :xs="24" :sm="8" :md="6" :lg="4">
                 <div class="author">

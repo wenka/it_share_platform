@@ -100,7 +100,7 @@
       </Row>
     </div>
     <!-- 底部 -->
-    <div class="footer">
+   <!--  <div class="footer">
       <p>
         <i class="fa fa-qq" aria-hidden="true">&nbsp;wkwenka@gmail.com</i>
         <i class="fa fa-weixin" aria-hidden="true">&nbsp;15738826986</i>
@@ -110,8 +110,8 @@
         <i class="fa fa-github" aria-hidden="true">&nbsp;wenka</i>
       </p>
       <p><i class="fa fa-copyright" aria-hidden="true">版权所有</i></p>
-    </div>
-  </div>
+    </div>-->
+  </div> 
 
 </template>
 

@@ -143,8 +143,8 @@
             }
         },
         created: function(){
-          this.acticle.id = this.$route.params.userId;
-          console.log(this.acticle);
+          let postId = this.$route.params.postId;
+          console.log(postId);
         },
         methods:{
           pay(){
