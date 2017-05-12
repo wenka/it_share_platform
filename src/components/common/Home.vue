@@ -6,7 +6,7 @@
             <transition name="move" mode="out-in"><router-view></router-view></transition>
             <!-- <v-foot></v-foot> -->
         </div>
-        <v-foot></v-foot>
+        <!-- <v-foot></v-foot> -->
     </div>
 </template>
 
