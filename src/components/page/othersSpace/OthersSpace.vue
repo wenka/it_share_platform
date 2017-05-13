@@ -1,13 +1,12 @@
 <template>
 	<div>
-	    <div class="crumbs">
+	    <!-- <div class="crumbs">
 	        <el-breadcrumb separator="/">
 	            <el-breadcrumb-item>
 	                <el-button class="fa fa-address-card" type="text">&nbsp;&nbsp;详情</el-button>
-	                <!-- <v-timer-line-list></v-timer-line-list> -->
 	            </el-breadcrumb-item>
 	        </el-breadcrumb>
-	    </div>
+	    </div> -->
 
 		<Row>
 			<Col :xs="24" :sm="14" :md="16" :lg="19">
@@ -80,7 +79,13 @@
 	        },
 	        // 查看作者信息
 	        selfAuthor(userId){
-	        	
+	        	let args = {
+	        		name: "othersInfo",
+	        		params:{
+	        			userId: userId
+	        		}
+	        	};
+	        	this.$router.push(args);
 	        }
 		},
 		components: {

@@ -92,6 +92,11 @@ export default new Router({
                     //         component: resolve => require(['../components/page/article/Articles-info.vue'],resolve) //文章详情
                     //     }
                     // ]
+                },
+                { 
+                    name: 'othersInfo',
+                    path: '/othersInfo/:userId',
+                    component: resolve => require(['../components/page/othersSpace/OthersInfo.vue'], resolve)
                 }
             ]
         },
