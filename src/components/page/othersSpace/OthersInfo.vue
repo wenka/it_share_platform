@@ -76,6 +76,8 @@
 	export default{
 		data(){
 			return {
+				UserFansUrl: 'it/userFans/',
+				isExistedUrl: 'it/userFans/isExisted',
 				getUserUrl: 'it/user/',
 				getCategoryUrl: 'it/category/getByUser',
 				getPostListSizeUrl: 'it/post/getListSize',
@@ -177,12 +179,30 @@
 		        this.getPostListSize(this.userId,"头条");
 		        this.getPostListSize(this.userId,"提问");
 		        this.getPostList(this.userId);
+		        this.userFansIsExisted(this.userId);
 			},
 			foucsBtnClick(userId){
 				console.log(userId);
 				if (this.foucsBtn.text == "加关注") {
 					this.foucsBtn.text = "取消关注";
-					this.$Message.success("关注成功");
+					let args = {
+						id:this.userId
+					}
+					this.$http.post(this.UserFansUrl,JSON.stringify(args)).then(
+						response => {
+							this.$Message.success("关注成功");
+						},
+						response => {
+							let errorMsg = response.body.developerMessage;
+				            this.$message.error(errorMsg);
+				            if (errorMsg.indexOf("未认证") > -1) {
+				            	localStorage.removeItem('me-id');
+	                        	localStorage.removeItem('me-name');
+				            	localStorage.setItem("last-router",this.$route.path);
+				            	this.$router.push("/login");
+				            }
+						}
+					);
 				}else{
 					this.foucsBtn.text = "加关注";
 					this.$Message.success("取消关注成功");
@@ -191,6 +211,13 @@
 			//查看多
 			postInfo(row){
 				console.log(row);
+				let args = {
+					name: 'othersSpace', 
+					params: { 
+						postId: row.id 
+					}
+				};
+				this.$router.push(args);
 			},
 			//查询用户
 			getUser(userId){
@@ -204,6 +231,9 @@
 						let errorMsg = response.body.developerMessage;
 			            this.$message.error(errorMsg);
 			            if (errorMsg.indexOf("未认证") > -1) {
+			            	localStorage.removeItem('me-id');
+                        	localStorage.removeItem('me-name');
+			            	localStorage.setItem("last-router",this.$route.path);
 			            	this.$router.push("/login");
 			            }
 					}
@@ -220,6 +250,9 @@
 						let errorMsg = response.body.developerMessage;
 			            this.$message.error(errorMsg);
 			            if (errorMsg.indexOf("未认证") > -1) {
+			            	localStorage.removeItem('me-id');
+                        	localStorage.removeItem('me-name');
+			            	localStorage.setItem("last-router",this.$route.path);
 			            	this.$router.push("/login");
 			            }
 					}
@@ -247,6 +280,9 @@
 		            	let errorMsg = response.body.developerMessage;
 		            	this.$message.error(errorMsg);
 		            	if (errorMsg.indexOf("未认证") > -1) {
+		            		localStorage.removeItem('me-id');
+                        	localStorage.removeItem('me-name');
+		            		localStorage.setItem("last-router",this.$route.path);
 		            	    this.$router.push("/login");
 		            	}
 		          	}
@@ -268,10 +304,34 @@
 		            let errorMsg = response.body.developerMessage;
 		            this.$message.error(errorMsg);
 		            if (errorMsg.indexOf("未认证") > -1) {
+		            	localStorage.removeItem('me-id');
+                        localStorage.removeItem('me-name');
+                        localStorage.setItem("last-router",this.$route.path);
 		                this.$router.push("/login");
 		            }
 		          }
 		        );
+			},
+			// 判断用户关系是否存在
+			userFansIsExisted(userId){
+				this.$http.get(this.isExistedUrl,{params:{userId:userId}}).then(
+					response => {
+						if (response.body) {
+							this.foucsBtn.text="取消关注";
+						}else{
+							this.foucsBtn.text="加关注";
+						}
+					},
+					response => {
+						let errorMsg = response.body.developerMessage;
+			            this.$message.error(errorMsg);
+			            if (errorMsg.indexOf("未认证") > -1) {
+			            	localStorage.removeItem('me-id');
+	                        localStorage.removeItem('me-name');
+			                this.$router.push("/login");
+			            }
+					}
+				);
 			}
 		}
 	}

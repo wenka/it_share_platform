@@ -62,6 +62,8 @@
 					let errorMsg = response.body.developerMessage;
 	                this.$message.error(errorMsg);
 	                if (errorMsg.indexOf("未认证") > -1) {
+	                	localStorage.removeItem('me-id');
+                        localStorage.removeItem('me-name');
 	                    this.$router.push("/login");
 	                }
 				}
@@ -83,6 +85,8 @@
 		                let errorMsg = response.body.developerMessage;
 		                this.$message.error(errorMsg);
 		                if (errorMsg.indexOf("未认证") > -1) {
+		                	localStorage.removeItem('me-id');
+                            localStorage.removeItem('me-name');
 		                    this.$router.push("/login");
 		                }
 		            }
@@ -102,6 +106,8 @@
 						let errorMsg = response.body.developerMessage;
 		                this.$message.error(errorMsg);
 		                if (errorMsg.indexOf("未认证") > -1) {
+		                	localStorage.removeItem('me-id');
+                            localStorage.removeItem('me-name');
 		                    this.$router.push("/login");
 		                }
 		                this.$Message.error('删除出错!');
