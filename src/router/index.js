@@ -41,11 +41,11 @@ export default new Router({
                     path: '/article',
                     component: resolve => require(['../components/page/article/Articles.vue'],resolve) //文章列表
                 },
-                // {
-                //     name: 'articleInfo',
-                //     path: '/article-info',
-                //     component: resolve => require(['../components/page/article/Articles-info.vue'],resolve) //文章详情
-                // },
+                {
+                    name: 'pubArticleList',
+                    path: '/pubArticleList',
+                    component: resolve => require(['../components/page/home/PubArticleList.vue'],resolve) //文章详情
+                },
                 {
                     path: '/personal-space',
                     component: resolve => require(['../components/page/personalSpace/PersonalSpace.vue'],resolve), //个人空间

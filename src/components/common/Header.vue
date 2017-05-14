@@ -4,13 +4,13 @@
           <img class="header-logo" src='../../../static/img/logo.jpg'>
           <div class="header-title" @click="backHome()">IT 技术分享平台 </div>
         </div>
-        <div class="serach">
+        <!-- <div class="serach">
             <span class="el-icon-search search-span" @click="showSearch"></span>
             <transition name="fade">
               <input type="text" v-model="param" @keyup.13="search($event)" v-show="active" class="search-input"/>
             </transition>
           </span>
-        </div>
+        </div> -->
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
