@@ -37,9 +37,7 @@
         <el-button class="editor-btn" type="primary" @click="submit('post')" v-show="submitbtn">提交</el-button>
         <Modal
           v-model="editCategoryView"
-          title="编辑类别"
-          @on-ok="ok"
-          @on-cancel="cancel">
+          title="编辑类别" scrollable cancel-text="">
           <v-edit-category v-on:category-changes="listenCategoryChange"></v-edit-category>
         </Modal>
     </div>
@@ -198,6 +196,9 @@
     }
 </script>
 <style scoped>
+    .ivu-modal-footer{
+        display: none;
+    }
     .editor-btn{
         margin-top: 20px;
     }

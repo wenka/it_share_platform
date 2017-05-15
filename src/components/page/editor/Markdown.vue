@@ -32,8 +32,7 @@
          <Modal
           v-model="editCategoryView"
           title="编辑类别"
-          @on-ok="ok"
-          @on-cancel="cancel">
+          cancel-text="">
           <v-edit-category v-on:category-changes="listenCategoryChange"></v-edit-category>
         </Modal>
     </div>

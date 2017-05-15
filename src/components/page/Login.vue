@@ -20,7 +20,7 @@
                         <div class="login-btn">
                             <!-- <el-button-group> -->
                               <el-button size="small" type="success" @click="submitForm('ruleForm')">登录</el-button>
-                              <el-button size="small" type="success">忘记密码</el-button>
+                              <el-button size="small" type="success"  @click="fogetPswd()">忘记密码</el-button>
                             <!-- </el-button-group> -->
                         </div>
                     </el-form>
@@ -48,13 +48,21 @@
                 </Tab-pane>
             </Tabs>
         </div>
+        <Modal
+          v-model="updatePswd"
+          title="忘记密码"
+          cancel-text="" >
+          <v-update-pswd v-on:user-changes="listenUserChange"></v-update-pswd>
+        </Modal>
     </div>
 </template>
 
 <script>
+    import vUpdatePswd from './updatePswd.vue';
     export default {
         data: function(){
             return {
+                updatePswd: false,
                 registerUrl: 'it/pub/register',
                 sendMsgUrl: 'it/pub/sendCode/',
                 checkUsernameUrl: 'it/user/existed/',
@@ -106,10 +114,24 @@
                         { required: true, message: '请输入短信验证码', trigger: 'blur' }
                     ]
                 },
-                Interval: null
+                Interval: null,
+                user: ""
             }
         },
+        components: {
+            vUpdatePswd
+        },
         methods: {
+            //监听 user 变化
+            listenUserChange(user){
+                this.user = user;
+                console.log(this.user);
+            },
+            //忘记密码
+            fogetPswd(){
+                console.log("忘记密码");
+                this.updatePswd = true;
+            },
             submitForm(formName) {
 
                 var args = {
