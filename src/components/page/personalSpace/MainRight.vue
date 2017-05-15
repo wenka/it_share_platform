@@ -7,7 +7,8 @@
           <el-button style="float: right;" type="text" class="fa fa-file-code-o" @click="newEdit('博客')">&nbsp;新建博客</el-button>
         </div>
         <div v-for="(item,index) in blogItems" :offset="index > 0 ? 2 : 0" class="text item">
-          {{index}}.<Icon type="ios-book"></Icon><a href="#">&nbsp;{{ item.title }}</a>
+          {{index}}.<Icon type="ios-book"></Icon>
+          <router-link :to="{ name: 'othersSpace', params: { postId: item.id }}"><a class="cd-read-more">&nbsp;{{ item.title }}</a></router-link>
           {{ item.createTime }}
         </div>
       </el-card>
@@ -18,7 +19,7 @@
           <el-button style="float: right;" type="text" class="fa fa-file-text" @click="newEdit('头条')">&nbsp;新建头条</el-button>
         </div>
         <div v-for="(item,index) in headlinesItems" class="text item" >
-            {{index}}.<Icon type="ios-compose"></Icon>&nbsp;<a href="">{{ item.title }}</a>
+            {{index}}.<Icon type="ios-compose"></Icon>&nbsp;<router-link :to="{ name: 'othersSpace', params: { postId: item.id }}"><a class="cd-read-more">&nbsp;{{ item.title }}</a></router-link>
             {{ item.createTime }}
         </div>
       </el-card>
@@ -29,7 +30,7 @@
           <el-button style="float: right;" type="text" class="fa fa-question" @click="newEdit('提问')">&nbsp;新建提问</el-button>
         </div>
         <div v-for="(item,index) in qaItems" class="text item">
-          {{index}}.<Icon type="speakerphone"></Icon><a href="#">&nbsp;{{ item.title }}</a>
+          {{index}}.<Icon type="speakerphone"></Icon><router-link :to="{ name: 'othersSpace', params: { postId: item.id }}"><a class="cd-read-more">&nbsp;{{ item.title }}</a></router-link>
           {{ item.createTime }}
         </div>
       </el-card>

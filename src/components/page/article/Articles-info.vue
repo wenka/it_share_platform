@@ -59,33 +59,19 @@
         <div class="ms-doc">
             <h4>所有评论</h4>
             <article>
-              <div class="comments">
+              <div class="comments" v-for="item in post.comments">
                 <div class="comments-tip">
                     <img src="../../../../static/img/img.jpg" class="image">
                     <div class="comments-author">
-                      AA
+                      {{item.author}}
                     </div>
                 </div>
                 <div class="comments-area">
-                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" :disabled="true" value="写的真好">
-                  </el-input>
+                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" :disabled="true" v-model="item.content"></el-input>
                 </div>
-                <div>
-                  <el-button type="success" size="mini" class="reply"><Icon type="reply"></Icon> 回复</el-button>
-                </div>
-              </div>
-              <div class="comments">
-                <div class="comments-tip">
-                    <img src="../../../../static/img/img.jpg" class="image">
-                    <div class="comments-author">
-                      BB
-                    </div>
-                </div>
-                <div class="comments-area">
-                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" :disabled="true" value="写的真好2，点赞"></el-input>
-                </div>
-                <div>
-                  <el-button type="success" size="mini" class="reply"><Icon type="reply"></Icon> 回复</el-button>
+                <div class="btn-area">
+                  {{item.createTime}}
+                  <el-button type="success" size="mini" class="reply" @click="reply(item.creatorId,item.author)"><Icon type="reply"></Icon> 回复</el-button>
                 </div>
               </div>
 
@@ -99,7 +85,7 @@
                     </div>
                 </div>
                 <div class="comments-area">
-                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" placeholder="请输入评论内容" ></el-input>
+                  <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" placeholder="请输入评论内容" v-model="comments"></el-input>
                 </div>
                 <div>
                   <el-button type="success" size="mini" class="send" @click="send"><Icon type="paper-airplane"></Icon> 发送</el-button>
@@ -118,10 +104,11 @@
         ],
         data(){
             return {
-              getPostInfoUrl: 'it/post/',
+              postBaseUrl: 'it/post/',
               active: false,
               tags: [
-              ]
+              ],
+              comments: ""
             }
         },
         created: function(){
@@ -136,15 +123,39 @@
             }
           },
           send(){
-            this.$message({
-               message: '评论成功',
-               type: 'success'
-             });
+            let post = {
+                title: this.post.title,
+                postType: "评论",
+                content: this.comments,
+                parent:{
+                    id: this.post.id
+                },
+                state: 1
+            };
+            this.$http.post(this.postBaseUrl,JSON.stringify(post)).then(
+                response => {
+                    this.$message.success('评论成功');
+                    this.$router.go(0);
+                },
+                response => {
+                    let errorMsg = response.body.developerMessage;
+                    this.$message.error(errorMsg);
+                    if (errorMsg.indexOf("未认证") > -1) {
+                        localStorage.removeItem('me-id');
+                        localStorage.removeItem('me-name');
+                        this.$router.push("/login");
+                    }
+                }
+            );
+          },
+          //回复
+          reply(creatorId,author){
+            this.comments = "@" + author + "：";
           },
           //通过id读取post
           getPost(postId){
             console.log(postId);
-            this.$http.get(this.getPostInfoUrl + postId).then(
+            this.$http.get(this.postBaseUrl + postId).then(
               response => {
                 this.post = response.body;
               },
@@ -250,12 +261,17 @@
     }
 
     .comments-area {
-      width: 84%;
+      width: 80%;
       float: left;
     }
 
+    .btn-area {
+      width: 100%;
+      text-align: center;
+    }
+
     .reply {
-      float: right;
+      /*float: right;*/
       margin: 5px;
     }
 
