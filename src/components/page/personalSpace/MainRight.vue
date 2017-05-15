@@ -49,6 +49,13 @@
       };
     },
     created: function(){
+      let meId = localStorage.getItem("me-id");
+        if (meId) {
+            // this.$router.push("/personal-space");
+        }else{
+            localStorage.setItem("last-router",this.$route.path);
+            this.$router.push('/login');
+        }
       this.getPostList("博客");
       this.getPostList("头条");
       this.getPostList("提问");

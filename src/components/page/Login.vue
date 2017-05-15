@@ -134,7 +134,9 @@
                     console.log(response.body);
                     localStorage.setItem("me-id",response.body.id);
                     localStorage.setItem("me-name",response.body.name);
-                    this.$router.push("/homePage");
+                    let router = localStorage.getItem("last-router");
+                    localStorage.removeItem("last-router");
+                    this.$router.push(router==null?"/homePage":router);
                 }, response => {
                     this.$message.error(response.body.developerMessage);
                 });    

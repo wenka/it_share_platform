@@ -25,7 +25,7 @@
           <h4>标签</h4>
           <article>
             <div class="acticle-tags">
-              <el-tag  v-for="tag in tags" class="tag" type="primary">{{tag.name}}</el-tag >
+              <el-tag  v-for="tag in post.postTags" class="tag" type="primary">{{tag.tagName}}</el-tag >
             </div>
           </article>
         </div>
@@ -112,6 +112,13 @@
             }
         },
         created: function(){
+          let meId = localStorage.getItem("me-id");
+          if (meId) {
+              // this.$router.push("/personal-space");
+          }else{
+              localStorage.setItem("last-router",this.$route.path);
+              this.$router.push('/login');
+          }
           console.log(this.post);
         },
         methods:{

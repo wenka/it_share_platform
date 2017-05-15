@@ -42,6 +42,13 @@
 			};
 		},
 		created: function(){
+      let meId = localStorage.getItem("me-id");
+        if (meId) {
+            // this.$router.push("/personal-space");
+        }else{
+            localStorage.setItem("last-router",this.$route.path);
+            this.$router.push('/login');
+        }
 			// var $timeline_block = $('.cd-timeline-block');
 			// //hide timeline blocks which are outside the viewport
 			// $timeline_block.each(function(){

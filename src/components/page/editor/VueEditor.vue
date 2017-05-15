@@ -12,6 +12,14 @@
                 <Form-item label="标题" prop="title" >
                     <Input v-model="post.title" />
                 </Form-item>
+                <Form-item label="标签">
+                    <el-tag :key="tag" v-for="tag in tagItems" type="success" style="margin:5px;" :closable="true" :close-transition="false" @close="handleClose(tag)">
+                    {{tag.name}}
+                    </el-tag>
+                    <Input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm">
+                    </Input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新标签</el-button>
+                </Form-item>
                 <Form-item label="类别" >
                     <Input v-model="post.category.id" v-show="false" disabled/>
                     <Input v-model="post.category.name" readonly/>
@@ -69,13 +77,23 @@
                         { required: true, message: '标题不能为空', trigger: 'blur' }
                     ]
                 },
-                categoryItems: []
+                categoryItems: [],
+                tagItems: [],
+                inputVisible: false,
+                inputValue: ""
             }
         },
         components: {
             quillEditor,uploadFile,vEditCategory
         },
         created: function(){
+            let meId = localStorage.getItem("me-id");
+            if (meId) {
+                // this.$router.push("/personal-space");
+            }else{
+                localStorage.setItem("last-router",this.$route.path);
+                this.$router.push('/login');
+            }
             console.log(this.postType);
             this.post.postType = this.postType;
             this.$http.get(this.getCategoryUrl).then(
@@ -95,6 +113,26 @@
             );
         },
         methods: {
+            //添加标签
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.tagItems.push({"name":inputValue});
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
+            //显示标签输入框
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+            //关闭标签
+            handleClose(tag) {
+                this.tagItems.splice(this.tagItems.indexOf(tag), 1);
+            },
             addCategory(){
                 this.editCategoryView = true;
             },
@@ -117,9 +155,12 @@
                             this.$message.error("请选择类别");
                             return;
                         }
+                        this.$set(this.post,"tags",this.tagItems);
+                        console.log(JSON.stringify(this.post));
                         this.$http.post(this.saveUrl,JSON.stringify(this.post)).then(
                             response => {
                                 this.$Message.success('提交成功!');
+                                this.$route.go(0);
                             },
                             response => {
                                 let errorMsg = response.body.developerMessage;

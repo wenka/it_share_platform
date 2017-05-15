@@ -88,6 +88,13 @@
       };
     },
     created: function(){
+      let meId = localStorage.getItem("me-id");
+        if (meId) {
+            // this.$router.push("/personal-space");
+        }else{
+            localStorage.setItem("last-router",this.$route.path);
+            this.$router.push('/login');
+        }
       this.user.id = this.$route.params.userId;
       this.$http.get(this.getUserUrl + this.user.id).then(response => {
           console.log(response.body);

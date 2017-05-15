@@ -50,6 +50,13 @@
 			IEcharts
 		},
 		created: function(){
+			let meId = localStorage.getItem("me-id");
+		    if (meId) {
+		        // this.$router.push("/personal-space");
+		    }else{
+		        localStorage.setItem("last-router",this.$route.path);
+		        this.$router.push('/login');
+		    }
 			console.log(this.$route.params);
 			let blogCounts = this.$route.params.blogCounts;
 			let headlineCounts = this.$route.params.headlineCounts;
