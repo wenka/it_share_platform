@@ -65,12 +65,13 @@
 			this.postId = this.$route.params.postId;
 			// console.log(this.postId);
 			this.getPost(this.postId);
+
 		},
 		methods: {
 			//通过id读取post
          	getPost(postId){
 	            console.log(postId);
-	            this.$http.get(this.getPostInfoUrl + this.postId).then(
+	            this.$http.get(this.getPostInfoUrl + postId).then(
 		            response => {
 		            	this.post = response.body;
 		            	console.log(this.post);
@@ -95,10 +96,21 @@
 	        		}
 	        	};
 	        	this.$router.push(args);
+	        },
+	        //检查post是否为评论
+	        checkPost(){
+	        	if (this.post.parentId == undefined) {
+
+	        	}else{
+	        		this.getPost(this.post.parentId);
+	        	}
 	        }
 		},
 		components: {
 			vArticlesInfo
+		},
+		watch: {
+			"post":"checkPost"
 		}
 	}
 </script>
