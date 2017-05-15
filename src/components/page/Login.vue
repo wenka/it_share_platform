@@ -153,7 +153,8 @@
                                 let args = {
                                     "account": this.registerForm.username,
                                     "password": this.registerForm.password,
-                                    "kindCode": 10
+                                    "kindCode": 10,
+                                    "tel": this.registerForm.tel
                                 }
                                 this.registerBtn = false;
                                 console.log(JSON.stringify(args));
@@ -167,7 +168,7 @@
 
                                     },
                                     response => {
-                                        this.$message.error("注册失败");
+                                        this.$message.error(response.body.developerMessage);
                                     }
                                 );
                                 this.registerBtn = true;
