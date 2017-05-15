@@ -20,6 +20,15 @@
 				</div><!-- cd-timeline-img -->
 
 				<div class="cd-timeline-content">
+          <div class="delete-post">
+            <Poptip
+                confirm
+                title="您确认删除这条内容吗？"
+                @on-ok="ok(item.id,index)"
+                @on-cancel="cancel">
+                <Button>删除</Button>
+            </Poptip>
+          </div>
 					<h2>{{ item.title }}</h2>
 					<p v-html="item.content"></p>
 					<!-- <a class="cd-read-more">阅读更多</a> -->
@@ -35,6 +44,7 @@
 	export default {
 		data() {
 			return {
+        deletePostUrl: 'it/post/',
         getPostListUrl: 'it/post/getList',
         postType: "",
         postItems: [],
@@ -59,6 +69,27 @@
        this.init();
 		},
 		methods: {
+      ok (postId,index) {
+          // this.$Message.success('删除成功' + index);
+          this.$http.delete(this.deletePostUrl + postId).then(
+            response => {
+              this.postItems.splice(index,1);
+              this.$Message.success('删除成功');
+            },
+            response => {
+                let errorMsg = response.body.developerMessage;
+                this.$message.error(errorMsg);
+                if (errorMsg.indexOf("未认证") > -1) {
+                    localStorage.removeItem('me-id');
+                    localStorage.removeItem('me-name');
+                    this.$router.push("/login");
+                }
+            }
+          );
+      },
+      cancel () {
+          this.$Message.info('点击了取消');
+      },
 			onScroll(event){
 			//	$timeline_block.each(function(){
 			//		if( $(this).offset().top <= $(window).scrollTop()+$(window).height()*0.75 && $(this).find('.cd-timeline-img').hasClass('is-hidden') ) {
@@ -109,7 +140,9 @@
 </script>
 
 <style>
-
+.delete-post{
+  float: right;
+}
 	html * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
