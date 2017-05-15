@@ -74,8 +74,8 @@ export default new Router({
                           component: resolve => require(['../components/page/personalSpace/EditCategory.vue'],resolve) //统计页面
                       },
                       {
-                          name: "timerLine",
-                          path: '/timerLine/:postType',
+                          name: 'timerLineList',
+                          path: '/timerLine',
                           component: resolve => require(['../components/page/article/TimerLineList.vue'],resolve)
                       }
                     ]

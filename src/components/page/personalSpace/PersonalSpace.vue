@@ -39,7 +39,7 @@
                 <Button type="ghost" size="small" @click="showCategoryView()">文章类别</Button>
             </div>
              <div style="text-align:center">
-                <Tag v-for="item in categoryItems" color="blue">{{item.name}}</Tag>
+                <Button v-for="item in categoryItems" @click="clickCategory(item.id)" type="info" style="margin:2px" size="small">{{item.name}}</Button>
              </div>
           </Card>
 
@@ -100,7 +100,10 @@
         categoryItems:[],
         blogCounts: 0,
         headlineCounts: 0,
-        qaCounts: 0
+        qaCounts: 0,
+        //查询文章列表的参数
+        categoryIds: "",
+        postType: ""
       };
     },
     components: {
@@ -238,15 +241,36 @@
       		}
       	);
       },
-      //查询个人post类别
+      //根据类型查询
       lookMorePost(postType){
-          console.log(postType + Math.random());
+          this.postType = postType;
+          this.morePostList();
+      },
+      //根据所属栏目查询
+      clickCategory(categoryIds){
+          this.categoryIds = categoryIds;
+          console.log(this.categoryIds);
+          this.morePostList();
+      },
+      // postListRouter
+      morePostList(){
           let args = {
-            name: "timerLine",
-            params: {
-              postType:postType
+            name: "timerLineList",
+            query: {
+              postType:this.postType,
+              categoryIds: this.categoryIds
             }
           };
+          if (this.postType == "") {
+            this.$delete(args.query, 'postType');
+          }
+
+          if (this.categoryIds == "") {
+            this.$delete(args.query,'categoryIds');
+          }
+
+          this.postType = "";
+          this.categoryIds = "";
           this.$router.push(args);
       }
     }

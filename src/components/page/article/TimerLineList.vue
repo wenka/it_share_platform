@@ -37,7 +37,8 @@
 			return {
         getPostListUrl: 'it/post/getList',
         postType: "",
-        postItems: ""
+        postItems: [],
+        categoryIds: ""
 			};
 		},
 		created: function(){
@@ -60,13 +61,14 @@
        
 			},
      //获取文章列表
-      getPostList(postType){
-        console.log(postType);
+      getPostList(){
         let args = {
             param: "",
-            postType: postType,
+            postType: this.postType,
+            categoryIds: this.categoryIds,
             states: "1"
         }
+        console.log(JSON.stringify(args));
         this.$http.get(this.getPostListUrl,{params:args}).then(
           response => {
               this.postItems = response.body;
@@ -85,16 +87,15 @@
       },
       //初始化
       init() {
-        console.log(this.$route.path);
-        let postType = this.$route.params.postType;
-        this.postType = postType;
-        this.getPostList(this.postType);
+        console.log(this.$route);
+        this.postType = this.$route.query.postType;
+        this.categoryIds = this.$route.query.categoryIds;
+        this.getPostList();
       }
     },
     watch: {
      // 如果路由有变化，会再次执行该方法
-     "$route.params": "init"
-     // "$route.path": "init"
+     "$route": "init"
     }
 	}
 
