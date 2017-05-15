@@ -27,7 +27,7 @@
 	                },
 	                series : [
 	                    {
-	                        name: '销量',
+	                        name: '发表量',
 	                        type: 'pie',
 	                        radius : '50%',
 	                        center: ['50%', '50%'],

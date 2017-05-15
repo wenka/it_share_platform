@@ -11,6 +11,12 @@
                         <el-form-item prop="password">
                             <el-input type="password" placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
                         </el-form-item>
+                        <el-form-item prop="tel">
+                            <el-input type="tel" placeholder="电话" v-show="false"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="tel">
+                            <el-input type="tel" placeholder="电话" v-show="false"></el-input>
+                        </el-form-item>
                         <div class="login-btn">
                             <!-- <el-button-group> -->
                               <el-button size="small" type="success" @click="submitForm('ruleForm')">登录</el-button>
@@ -153,9 +159,9 @@
                                     response => {
                                         console.log(response.body);
                                         this.$message.success("注册成功");
-                                        // this.$delete(args, 'kindCode');
-                                        // this.$set(args,'remberme',true);
-                                        // this.login(args);
+                                        this.$delete(args, 'kindCode');
+                                        this.$set(args,'remberme',true);
+                                        this.login(args);
 
                                     },
                                     response => {
@@ -183,7 +189,6 @@
                             this.$message.error(this.errMsg);
                         }else{
                             this.errMsg = "";
-                            this.$message.success("账号可用");
                         }
                     },
                     response => {
@@ -243,6 +248,10 @@
         width:100%;
         height:100%;
         background-color: #CCCCCC;
+        background-image: url('../../../static/img/login.jpg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
     }
     .ms-title{
         position: absolute;
@@ -258,7 +267,7 @@
         position: absolute;
         left:50%;
         top:50%;
-        width:auto;
+        width:300px;
         height:auto;
         margin:-150px 0 0 -150px;
         padding:10px;
@@ -267,6 +276,7 @@
     }
     .login-btn,h2{
         text-align: center;
+        margin-bottom: 5px;
     }
    /* .login-btn button{
         width:100%;
