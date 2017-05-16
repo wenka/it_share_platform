@@ -104,6 +104,7 @@
         ],
         data(){
             return {
+              saveUserDynamicUrl: 'it/userDynamic/',
               postBaseUrl: 'it/post/',
               active: false,
               tags: [
@@ -150,6 +151,7 @@
                     if (errorMsg.indexOf("未认证") > -1) {
                         localStorage.removeItem('me-id');
                         localStorage.removeItem('me-name');
+                        localStorage.setItem("last-router",this.$route.path);
                         this.$router.push("/login");
                     }
                 }
@@ -158,6 +160,32 @@
           //回复
           reply(creatorId,author){
             this.comments = "@" + author + "：";
+            //保存 所@ 的用户的动态
+            let args = {
+              owner:{
+                id: creatorId
+              },
+              post: {
+                id: this.post.id
+              },
+              msg: "您的评论有新回复"
+            };
+            this.$http.post(this.saveUserDynamicUrl,JSON.stringify(args)).then(
+              response => {
+
+              },
+              response => {
+                let errorMsg = response.body.developerMessage;
+                this.$message.error(errorMsg);
+                if (errorMsg.indexOf("未认证") > -1) {
+                    localStorage.removeItem('me-id');
+                    localStorage.removeItem('me-name');
+                    localStorage.setItem("last-router",this.$route.path);
+                    this.$router.push("/login");
+                }
+              }
+            );
+
           },
           //通过id读取post
           getPost(postId){

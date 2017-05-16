@@ -31,6 +31,7 @@
 				Interval: "",
 				codeShow: false,
                 sendCodeBtn: false,
+                registerBtn: true,
                 timer: 60,
 				user: {
                     username: '',

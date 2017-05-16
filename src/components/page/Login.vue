@@ -20,7 +20,15 @@
                         <div class="login-btn">
                             <!-- <el-button-group> -->
                               <el-button size="small" type="success" @click="submitForm('ruleForm')">登录</el-button>
-                              <el-button size="small" type="success"  @click="fogetPswd()">忘记密码</el-button>
+                                <el-popover
+                                  ref="a"
+                                  placement="top"
+                                  width="400"
+                                  title="忘记密码"
+                                  trigger="click">
+                                    <v-update-pswd v-on:user-changes="listenUserChange"></v-update-pswd>
+                                </el-popover>
+                              <el-button size="small" type="success" v-popover:a  @click="fogetPswd()">忘记密码</el-button>
                             <!-- </el-button-group> -->
                         </div>
                     </el-form>
@@ -48,12 +56,13 @@
                 </Tab-pane>
             </Tabs>
         </div>
-        <Modal
+        <!-- <Modal
           v-model="updatePswd"
           title="忘记密码"
           cancel-text="" >
           <v-update-pswd v-on:user-changes="listenUserChange"></v-update-pswd>
-        </Modal>
+        </Modal> -->
+
     </div>
 </template>
 

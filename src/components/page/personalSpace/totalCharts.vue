@@ -1,12 +1,23 @@
 <template>
-	<div class="echarts">
-    	<IEcharts :option="pie" ></IEcharts>
-    </div>
+	<div>
+		<el-breadcrumb separator="/">
+            <el-breadcrumb-item>
+                <el-button class="fa fa-adjust" type="text" readobly>&nbsp;&nbsp;统计/日志</el-button>
+            </el-breadcrumb-item>
+        </el-breadcrumb>
+		<div class="echarts">
+	    	<IEcharts :option="pie" ></IEcharts>
+	    </div>
+		<div>
+			<v-log-table></v-log-table>
+		</div>
+	</div>
 	
 </template>
 
 <script>
 	import IEcharts from 'vue-echarts-v3';
+	import vLogTable from '../table/Logtable.vue';
 	export default {
 		data(){
 			return {
@@ -14,7 +25,7 @@
 	                color:["#20a0ff","#13CE66","#F7BA2A"],
 	                title : {
 	                    text: '发表量',
-	                    x:'center'
+	                    x:'20%'
 	                },
 	                tooltip : {
 	                    trigger: 'item',
@@ -30,7 +41,7 @@
 	                        name: '发表量',
 	                        type: 'pie',
 	                        radius : '50%',
-	                        center: ['50%', '50%'],
+	                        center: ['20%', '50%'],
 	                        data:[
 	                           
 	                        ],
@@ -47,7 +58,7 @@
             }
 		},
 		components: {
-			IEcharts
+			IEcharts,vLogTable
 		},
 		created: function(){
 			let meId = localStorage.getItem("me-id");
@@ -74,5 +85,8 @@
         text-align: center;
         width: auto;
         height: 400px;
+        border-style: solid;
+        border-color: #DDDDDD;
+        border-width: 1px;
     }
 </style>

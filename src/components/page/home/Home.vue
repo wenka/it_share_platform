@@ -193,6 +193,7 @@ export default {
             if (errorMsg.indexOf("未认证") > -1) {
                 localStorage.removeItem('me-id');
                 localStorage.removeItem('me-name');
+                localStorage.setItem("last-router",this.$route.path);
                 this.$router.push("/login");
             }
           }
@@ -211,6 +212,7 @@ export default {
             if (errorMsg.indexOf("未认证") > -1) {
                 localStorage.removeItem('me-id');
                 localStorage.removeItem('me-name');
+                localStorage.setItem("last-router",this.$route.path);
                 this.$router.push("/login");
             }
           }

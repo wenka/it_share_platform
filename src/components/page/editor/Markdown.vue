@@ -119,6 +119,7 @@
                                 if (errorMsg.indexOf("未认证") > -1) {
                                     localStorage.removeItem('me-id');
                                     localStorage.removeItem('me-name');
+                                    localStorage.setItem("last-router",this.$route.path);
                                     this.$router.push("/login");
                                 }
                                 // this.$Message.success('保存失败!');
@@ -154,6 +155,7 @@
                         if (errorMsg.indexOf("未认证") > -1) {
                             localStorage.removeItem('me-id');
                             localStorage.removeItem('me-name');
+                            localStorage.setItem("last-router",this.$route.path);
                             this.$router.push("/login");
                         }
                     }

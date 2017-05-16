@@ -21,12 +21,13 @@
 
             <div class="card-title">
                 <Button type="ghost" size="small" @click="selfdetails(me.id)">个人资料</Button>
+                <el-badge :value='unread'  class="card-msg">
+                    <Button size="small" type="text" @click="showDynamic(me.id)"><Icon type="ios-bell-outline" size="26"></Icon></Button>
+                </el-badge>
             </div>
-
              <div style="text-align:center">
                  <img src="../../../../static/img/img.jpg" class="header-img" @click="editAvatar()">
                  <p><h3>{{ me.name }}</h3></p>
-
              </div>
              <div style="text-align:center">
                   <p>我关注的<Button type="text" style="color:green">{{myFocus}}</Button></p>
@@ -86,6 +87,7 @@
   export default {
     data() {
       return {
+        getUnreadUrl: 'it/userDynamic/unread',
       	getRelationCountsUrl: 'it/userFans/listSize',
         getPostListSizeUrl: 'it/post/getListSize', 
         getUrl: 'it/category/getByUser',
@@ -103,7 +105,8 @@
         qaCounts: 0,
         //查询文章列表的参数
         categoryIds: "",
-        postType: ""
+        postType: "",
+        unread: 0
       };
     },
     components: {
@@ -159,6 +162,7 @@
               if (errorMsg.indexOf("未认证") > -1) {
                   localStorage.removeItem('me-id');
                   localStorage.removeItem('me-name');
+                  localStorage.setItem("last-router",this.$route.path);
                   this.$router.push("/login");
               }
           }
@@ -174,6 +178,7 @@
         //查询我的用户关系数量
         this.getRelationCounts("myFans");
         this.getRelationCounts("myFocus");
+        this.getUnread();
       },
       getPostListSize(postType){
         console.log(postType);
@@ -201,6 +206,7 @@
             if (errorMsg.indexOf("未认证") > -1) {
                 localStorage.removeItem('me-id');
                 localStorage.removeItem('me-name');
+                localStorage.setItem("last-router",this.$route.path);
                 this.$router.push("/login");
             }
           }
@@ -243,6 +249,7 @@
 	            if (errorMsg.indexOf("未认证") > -1) {
                   localStorage.removeItem('me-id');
                   localStorage.removeItem('me-name');
+                  localStorage.setItem("last-router",this.$route.path);
 	                this.$router.push("/login");
 	            }
       		}
@@ -279,6 +286,36 @@
           this.postType = "";
           this.categoryIds = "";
           this.$router.push(args);
+      },
+      //读取未读消息
+      getUnread(){
+        this.$http.get(this.getUnreadUrl).then(
+          response => {
+            this.unread = response.body;
+            console.log("未读消息：" + this.unread);
+          },
+          response => {
+            let errorMsg = response.body.developerMessage;
+            this.$message.error(errorMsg);
+            if (errorMsg.indexOf("未认证") > -1) {
+                localStorage.removeItem('me-id');
+                localStorage.removeItem('me-name');
+                localStorage.setItem("last-router",this.$route.path);
+                this.$router.push("/login");
+            }
+          }
+        );
+      },
+      //显示动态
+      showDynamic(userId){
+        console.log("动态：" + userId);
+        let args = {
+          name: "userDynamicTable",
+          params: {
+            userId: userId
+          }
+        };
+        this.$router.push(args);
       }
     }
   }
@@ -287,7 +324,12 @@
 
 <style>
 
+  .card-msg {
+    float: right;
+  }
+
   .main-left {
+    width: 100%;
   }
 
   .header-img {
