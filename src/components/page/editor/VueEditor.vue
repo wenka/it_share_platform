@@ -16,7 +16,7 @@
                     <el-tag :key="tag" v-for="tag in tagItems" type="success" style="margin:5px;" :closable="true" :close-transition="false" @close="handleClose(tag)">
                     {{tag.name}}
                     </el-tag>
-                    <Input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm">
+                    <Input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm">
                     </Input>
                     <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新标签</el-button>
                 </Form-item>
@@ -33,7 +33,7 @@
            
         </div>
         <quill-editor ref="myTextEditor" v-model="post.content" :config="editorOption"></quill-editor>
-        <upload-file></upload-file>
+        <!-- <upload-file></upload-file> -->
         <el-button class="editor-btn" type="primary" @click="submit('post')" v-show="submitbtn">提交</el-button>
         <Modal
           v-model="editCategoryView"
@@ -124,9 +124,9 @@
             //显示标签输入框
             showInput() {
                 this.inputVisible = true;
-                this.$nextTick(_ => {
-                    this.$refs.saveTagInput.$refs.input.focus();
-                });
+                // this.$nextTick(_ => {
+                //     this.$refs.saveTagInput.$refs.input.focus();
+                // });
             },
             //关闭标签
             handleClose(tag) {

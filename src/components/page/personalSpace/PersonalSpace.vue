@@ -54,6 +54,16 @@
                   <p><el-button type="text" @click="lookMorePost('提问')"><span class="fa fa-question-circle"></span>&nbsp;提问({{ qaCounts }})</el-button></p>
              </div>
           </Card>
+
+           <Card class="left-card">
+            <div class="card-title">
+                <Button type="ghost" size="small">上传</Button>
+            </div>
+             <div style="text-align:center">
+                  <p><el-button type="text" @click="update('文档')" ><span class="fa fa-list-alt"></span>&nbsp;文档上传</el-button></p>
+                  <p><el-button type="text" @click="update('源码')"><span class="fa fa-newspaper-o"></span>&nbsp;源码上传</el-button></p>
+             </div>
+          </Card>
         </div>
       </Col>
 

@@ -12,6 +12,14 @@
                 <Form-item label="标题" prop="title" >
                     <Input v-model="post.title" />
                 </Form-item>
+                <Form-item label="标签">
+                    <el-tag :key="tag" v-for="tag in tagItems" type="success" style="margin:5px;" :closable="true" :close-transition="false" @close="handleClose(tag)">
+                    {{tag.name}}
+                    </el-tag>
+                    <Input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm">
+                    </Input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新标签</el-button>
+                </Form-item>
                 <Form-item label="类别" >
                     <Input v-model="post.category.id" v-show="false" disabled/>
                     <Input v-model="post.category.name" readonly/>
@@ -25,7 +33,7 @@
         </div>
         <markdown-editor v-model="post.content" :configs="configs" ref="markdownEditor"></markdown-editor>
         <div class="plugins-tips">
-            <upload-file></upload-file>
+           <!--  <upload-file></upload-file> -->
             <el-button class="editor-btn" type="primary" v-show="submitbtn" @click="submit('post')">提交</el-button>
         </div>
         <!-- <mavonEditor v-model="content" height="100px;"/> -->
@@ -76,7 +84,10 @@
                         { required: true, message: '标题不能为空', trigger: 'blur' }
                     ]
                 },
-                categoryItems: []
+                categoryItems: [],
+                tagItems: [],
+                inputVisible: false,
+                inputValue: ""
             }
         },
         components: {
@@ -94,6 +105,26 @@
             this.getCategoryList();
         },
         methods: {
+             //添加标签
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.tagItems.push({"name":inputValue});
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
+            //显示标签输入框
+            showInput() {
+                this.inputVisible = true;
+                // this.$nextTick(_ => {
+                //     this.$refs.saveTagInput.$refs.input.focus();
+                // });
+            },
+            //关闭标签
+            handleClose(tag) {
+                this.tagItems.splice(this.tagItems.indexOf(tag), 1);
+            },
             ok(){
                 this.$Message.info("您点击了确定");
             },
@@ -109,6 +140,7 @@
                             this.$message.error("请选择类别");
                             return;
                         }
+                        this.$set(this.post,"tags",this.tagItems);
                         this.$http.post(this.saveUrl,JSON.stringify(this.post)).then(
                             response => {
                                 this.$Message.success('提交成功!');

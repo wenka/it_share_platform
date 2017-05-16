@@ -42,7 +42,7 @@
 				category: {
 					id: "",
 					name:"",
-					categoryType: "类别",
+					categoryType: "文章类别",
 					creator: {
 						id: localStorage.getItem("me-id"),
 	         			name: localStorage.getItem("me-name")

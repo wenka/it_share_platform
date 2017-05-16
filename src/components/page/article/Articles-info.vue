@@ -14,6 +14,7 @@
                 <h1>{{post.title}}</h1>
                 <!-- <h2>文章副标题</h2> -->
                 <p v-html="post.content"></p>
+                <!-- <vue-markdown></vue-markdown> -->
                 <div class="acticle-share">
                     <el-button type="primary" icon="share" size="mini" class="share-button">  分享</el-button>
                 </div>
@@ -98,6 +99,7 @@
 </template>
 
 <script>
+    import VueMarkdown from 'vue-markdown';
     export default {
         props:[
             'post'
@@ -121,6 +123,9 @@
               this.$router.push('/login');
           }
           console.log(this.post);
+        },
+        components: {
+          VueMarkdown
         },
         methods:{
           pay(){
