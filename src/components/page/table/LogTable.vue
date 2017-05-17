@@ -1,12 +1,12 @@
 <template>
     <div>
-    <div class="crumbs">
-        <el-breadcrumb separator="/">
-            <el-breadcrumb-item>
-                <el-button class="fa fa-coffee" type="text" readobly>&nbsp;&nbsp;我的操作记录</el-button>
-            </el-breadcrumb-item>
-        </el-breadcrumb>
-    </div>
+      <div class="crumbs">
+          <el-breadcrumb separator="/">
+              <el-breadcrumb-item>
+                  <el-button class="fa fa-coffee" type="text" readobly>&nbsp;&nbsp;我的操作记录</el-button>
+              </el-breadcrumb-item>
+          </el-breadcrumb>
+      </div>
       <el-table :data="data" border style="width: 100%" row-class-name="row-class">
         <el-table-column label="#序号" width="150">
           <template scope="scope">

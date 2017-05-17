@@ -26,7 +26,13 @@
                 </el-badge>
             </div>
              <div style="text-align:center">
-                 <img src="../../../../static/img/img.jpg" class="header-img" @click="editAvatar()">
+                 <el-popover
+                  ref="editAvatarView"
+                  placement="left"
+                  title="修改头像">
+                  <upload-picture></upload-picture>
+                </el-popover>
+                 <img src="../../../../static/img/img.jpg" v-popover:editAvatarView class="header-img" @click="editAvatar()">
                  <p><h3>{{ me.name }}</h3></p>
              </div>
              <div style="text-align:center">
@@ -60,8 +66,8 @@
                 <Button type="ghost" size="small">上传</Button>
             </div>
              <div style="text-align:center">
-                  <p><el-button type="text" @click="update('文档')" ><span class="fa fa-list-alt"></span>&nbsp;文档上传</el-button></p>
-                  <p><el-button type="text" @click="update('源码')"><span class="fa fa-newspaper-o"></span>&nbsp;源码上传</el-button></p>
+                  <p><el-button type="text" @click="upload('文档')" ><span class="fa fa-list-alt"></span>&nbsp;文档上传</el-button></p>
+                  <p><el-button type="text" @click="upload('源码')"><span class="fa fa-newspaper-o"></span>&nbsp;源码上传</el-button></p>
              </div>
           </Card>
         </div>
@@ -74,13 +80,7 @@
       </Col>
 
     </Row>
-    <Modal
-      v-model="editAvatarView"
-      title="修改头像"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <upload-picture></upload-picture>
-    </Modal>
+
     <Modal
           v-model="editCategoryView"
           title="编辑类别"
@@ -323,6 +323,17 @@
           name: "userDynamicTable",
           params: {
             userId: userId
+          }
+        };
+        this.$router.push(args);
+      },
+      //上传
+      upload(fileType){
+        console.log(fileType);
+        let args = {
+          name: "uploadFile",
+          params: {
+            fileType: fileType
           }
         };
         this.$router.push(args);

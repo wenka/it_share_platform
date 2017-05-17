@@ -8,14 +8,16 @@
     </div>
 
     <img class="pre-img" :src="src" alt="">
-    <vue-core-image-upload :class="['btn-primary','pure-button-primary','js-btn-crop']"
+    <vue-core-image-upload :class="['btn', 'btn-primary']"
                            :crop="true"
                            text="选择图片"
-                           url="/api/posts/"
+                           url="/it/uploads"
                            extensions="png,gif,jpeg,jpg"
                            cropRatio="1:1"
-                           @:imageuploaded="imageuploaded"
-                           @:errorhandle="handleError"></vue-core-image-upload>
+                           inputAccept="image/*"
+                           resize="local"
+                           @imageuploaded="imageuploaded"
+                           @errorhandle="handleError"></vue-core-image-upload>
   </div>
 </template>
 
@@ -24,16 +26,50 @@
   export default {
       data: function(){
           return {
+              updateUrl: "it/user/upload",
               src: '../../../static/img/img.jpg',
-              fileList: []
+              fileList: [],
+              userId: ""
           }
       },
       components: {
               VueCoreImageUpload
       },
+      created() {
+          this.userId = localStorage.getItem("me-id");
+          if (this.userId) {
+          // this.$router.push("/personal-space");
+          }else{
+              localStorage.setItem("last-router",this.$route.path);
+              this.$router.push('/login');
+          }
+      },
       methods:{
           imageuploaded(res) {
-              console.log(res)
+              console.log(res);
+              let response = res[0];
+              let args = {
+                id: this.userId,
+                attachment: {
+                  id: response.id
+                }
+              };
+              this.$http.post(this.updateUrl,JSON.stringify(args)).then(
+                  response => {
+                    this.$message.success("头像更改成功");
+                  },
+                  response => {
+                      let errorMsg = response.body.developerMessage;
+                      this.$message.error(errorMsg);
+                      if (errorMsg.indexOf("未认证") > -1) {
+                          localStorage.removeItem('me-id');
+                          localStorage.removeItem('me-name');
+                          localStorage.setItem("last-router",this.$route.path);
+                          this.$router.push("/login");
+                      }
+                  }
+              );
+              
           },
           handleError(){
               this.$message.error('图片上传失败');

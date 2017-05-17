@@ -34,6 +34,9 @@
 
 <script>
 	export default{
+		props:[
+            'categoryType'
+        ],
 		data: function(){
 			return{
 				getUrl: "it/category/getByUser",
@@ -53,6 +56,10 @@
 			}
 		},
 		created: function(){
+			if (this.categoryType != undefined) {
+				this.category.categoryType = this.categoryType;
+			}
+			console.log(this.category.categoryType);
 			let meId = localStorage.getItem("me-id");
 		    if (meId) {
 		        // this.$router.push("/personal-space");
@@ -60,7 +67,7 @@
 		        localStorage.setItem("last-router",this.$route.path);
 		        this.$router.push('/login');
 		    }
-			this.$http.get(this.getUrl).then(
+			this.$http.get(this.getUrl,{params:{categoryType:this.category.categoryType}}).then(
 				response => {
 					this.categoryItems = response.body;
 					console.log(this.categoryItems);

@@ -66,7 +66,13 @@ export default new Router({
                       {
                           name: 'userDynamicTable',
                           path: '/userDynamicTable/:userId',
-                          component: resolve => require(['../components/page/table/UserDynamicTable.vue'], resolve)     // vue-datasource组件
+                          component: resolve => require(['../components/page/table/UserDynamicTable.vue'], resolve) 
+                      },
+                      //文档上传
+                      {
+                          name: 'uploadFile',
+                          path: '/uploadFile/:fileType',
+                          component: resolve => require(['../components/page/upload/UploadFile.vue'], resolve)     
                       }
                     ]
                 },
