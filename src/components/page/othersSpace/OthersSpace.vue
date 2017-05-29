@@ -9,15 +9,9 @@
 	    </div> -->
 
 		<Row>
-			<Col :xs="24" :sm="14" :md="16" :lg="19">
-				<div class="left-content">
-					<!-- <transition name="move" mode="out-in"><router-view></router-view></transition> -->
-					<v-articles-info :post="post"></v-articles-info>
-				</div>
-			</Col>
 			<Col :xs="0" :sm="10" :md="8" :lg="5">
-				<div class="right-personal">
-					<Card class="right-card">
+				<div class="right-personal" v-loading="loadingPost" element-loading-text="拼命加载中哦^_^">
+					<Card class="post-card">
 			            <div class="card-title">
 			                <Button type="ghost" size="small" @click="selfAuthor(post.creatorId)">作者</Button>
 			            </div>
@@ -34,6 +28,12 @@
 			          </Card>
 				</div>
 			</Col>
+			<Col :xs="24" :sm="14" :md="16" :lg="19">
+				<div class="left-content">
+					<!-- <transition name="move" mode="out-in"><router-view></router-view></transition> -->
+					<v-articles-info :post="post" v-loading="loadingPost" element-loading-text="拼命加载中哦^_^"></v-articles-info>
+				</div>
+			</Col>
 		</Row>		
 	</div>
 </template>
@@ -43,6 +43,7 @@
 	export default{
 		data(){
 			return {
+				loadingPost: true,
 				getPostInfoUrl: 'it/post/',
 				postId: "",
 				me: {
@@ -70,10 +71,12 @@
 		methods: {
 			//通过id读取post
          	getPost(postId){
+         		this.loadingPost = true;
 	            console.log(postId);
 	            this.$http.get(this.getPostInfoUrl + postId).then(
 		            response => {
 		            	this.post = response.body;
+		            	this.loadingPost = false;
 		            	console.log(this.post);
 		            },
 		            response => {
@@ -119,18 +122,18 @@
 <style>
 	.left-content {
 		text-align: center;
-		width: 98%;
+		width: 90%;
 		height: auto;
 	}
 
 	.right-personal {
-		width: 100%;
+		width: 90%;
 		height: 10px;
 	}
 
 	.header-img {
-	    width: 100px;
-	    height: 100%;
+	    width: 50px;
+	    height: 50%;
 	    border-radius: 50%;
 	}
 

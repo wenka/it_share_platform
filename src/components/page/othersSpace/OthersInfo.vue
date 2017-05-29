@@ -15,7 +15,7 @@
 				</Col>
 				<Col :xs="24" :sm="20" :md="20" :lg="20">
 					<div class="personal-content">
-						<Form class="info-content-form">
+						<Form class="info-content-form" v-loading="loadingInfo" element-loading-text="拼命加载中哦^_^">
 							<Form-item>
 								<Input type="text" v-model="user.name" readonly class="input-form">
 									<span slot="prepend">用户名：</span>
@@ -26,9 +26,12 @@
 									<span slot="prepend">电&nbsp;&nbsp;&nbsp;&nbsp;话：</span>
 								</Input>
 							</Form-item>
-							<Form-item label="介    绍：">
-								<Input type="textarea" v-model="user.remark" readonly class="input-form">
+							<Form-item>
+								<Input type="text" v-model="user.remark" readonly class="input-form">
+									<span slot="prepend">介&nbsp;&nbsp;&nbsp;&nbsp;绍：</span>
 								</Input>
+								<!-- <Input type="textarea" v-model="user.remark" readonly class="input-form">
+								</Input> -->
 							</Form-item>
 						</Form>
 					</div>
@@ -40,7 +43,7 @@
 		        <el-breadcrumb separator="/">
 		            <el-button class="fa fa-tags" type="text">&nbsp;&nbsp;擅长领域</el-button>
 		        </el-breadcrumb>
-		        <div class="category-list">
+		        <div class="category-list" v-loading="loadingCategory" element-loading-text="拼命加载中哦^_^">
 		        	<Tag v-for="item in categoryItems" type="border" color="green">
 						{{ item.name }}
 					</Tag>
@@ -52,7 +55,7 @@
 		        <el-breadcrumb separator="/">
 		            <el-button class="fa fa-tags" type="text">&nbsp;&nbsp;发表统计</el-button>
 		        </el-breadcrumb>
-		        <div class="charts">
+		        <div class="charts" v-loading="loadingCharts" element-loading-text="拼命加载中哦^_^">
 		        	<IEcharts :option="pie" ></IEcharts>
 		        </div>
 		    </div>
@@ -62,7 +65,7 @@
 		        <el-breadcrumb separator="/">
 		            <el-button class="fa fa-tags" type="text">&nbsp;&nbsp;最新动态</el-button>
 		        </el-breadcrumb>
-		        <div>
+		        <div v-loading="loadingPost" element-loading-text="拼命加载中哦^_^">
 		        	<Table :columns="columns" height="500" :data="postList" border stripe @on-row-click="postInfo"></Table>
 		        </div>
 		    </div>
@@ -76,6 +79,10 @@
 	export default{
 		data(){
 			return {
+				loadingPost: true,
+				loadingCharts: true,
+				loadingCategory: true,
+				loadingInfo: true,
 				UserFansUrl: 'it/userFans/',
 				isExistedUrl: 'it/userFans/isExisted',
 				getUserUrl: 'it/user/',
@@ -228,10 +235,12 @@
 			},
 			//查询用户
 			getUser(userId){
+				this.loadingInfo = true;
 				console.log(userId);
 				this.$http.get(this.getUserUrl + userId).then(
 					response => {
 						this.user = response.body;
+						this.loadingInfo = false;
 						console.log(this.user);
 					},
 					response => {
@@ -248,9 +257,11 @@
 			},
 			// 获取类别集合
 			getCategoryList(userId){
+				this.loadingCategory = true;
 				this.$http.get(this.getCategoryUrl,{params:{userId:userId}}).then(
 					response => {
 						this.categoryItems = response.body;
+						this.loadingCategory = false;
 						console.log(this.categoryItems);
 					},
 					response => {
@@ -267,6 +278,7 @@
 			},
 			//获取发表物数量
 			getPostListSize(userId,postType){
+				this.loadingCharts = true;
 				console.log(userId + "<-->" + postType);
 				let args = {
 					userId: userId,
@@ -282,6 +294,7 @@
 		            	}else if(postType == "提问"){
 							this.pie.series[0].data.push({value:response.body,name:'提问'});
 		            	}
+		            	this.loadingCharts = false;
 		          	},
 		          	response => {
 		            	let errorMsg = response.body.developerMessage;
@@ -297,6 +310,7 @@
 			},
 			//获取文章集合
 			getPostList(userId){
+				this.loadingPost = true;
 				let args = {
 		            param: "",
 		            userId: userId,
@@ -305,6 +319,7 @@
 		        this.$http.get(this.getPostListUrl,{params:args}).then(
 		          response => {
 		              this.postList = response.body;
+		              this.loadingPost = false;
 		              console.log(this.postList);
 		          },
 		          response => {
@@ -398,6 +413,7 @@
 	.personal-info,.personal-category,.personal-new-activity,.personal-charts{
 		width: 100%;
 		height: auto;
+		min-height: 100px;
 		/*background-color: red;*/
 		border-color: #CCCC99;
 		border-style: solid;

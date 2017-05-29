@@ -3,9 +3,9 @@
 		<Row>
 			<Col :xs="24" :sm="4" :md="4" :lg="4">
 		        <Card class="left-card">
-		        	<div class="card-title">
+		        	<!-- <div class="card-title">
 		            	<Button type="ghost" size="small">搜素</Button>
-		            </div>
+		            </div> -->
 		            <div style="text-align:center">
 		            	<div class="serach">
 				            <input type="text" v-model="param" @keyup.13="search($event)" v-show="true" class="search-input"/>
@@ -14,7 +14,7 @@
 				        </div>
 		            </div>
 		        </Card>
-		        <Card class="left-card">
+		        <Card class="left-card" v-loading="loadingCategory" element-loading-text="拼命加载中哦^_^">
 		        	<div class="card-title">
 		            	<Button type="ghost" size="small" @click="clickCategory('')">文章类别</Button>
 		            </div>
@@ -23,7 +23,7 @@
 		            </div>
 		        </Card>
 
-		        <Card class="left-card">
+		        <Card class="left-card" v-loading="loadingAuthor" element-loading-text="拼命加载中哦^_^">
 	              <div class="card-title">
 	                <Button type="ghost" size="small">&nbsp;&nbsp;热门作者</Button>
 	                <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
@@ -66,7 +66,7 @@
 				          </Col>
 				        </Row>
 					</div>
-					<v-article :post-items="postItems"></v-article>
+					<v-article :post-items="postItems" v-loading="loadingPost" element-loading-text="拼命加载中哦^_^"></v-article>
 				</div>
 			</Col>
 		</Row>
@@ -78,6 +78,9 @@
 	export default{
 		data(){
 			return {
+				loadingPost:true,
+				loadingCategory:true,
+				loadingAuthor:true,
 				getPopularAuthorUrl: 'it/pub/popularAuthor',
 				getCategoryListUrl: 'it/pub/categoryList',
 				getPostListUrl: 'it/pub/getPostList',
@@ -111,17 +114,19 @@
 	      	},
 			search(ev) {
               	if(ev.keyCode == 13 || ev == 13){
-	                this.$message({
-	                  	message: '恭喜你，搜索' + this.param + '成功',
-	                  	type: 'success'
-	                });
+	                // this.$message({
+	                //   	message: '恭喜你，搜索' + this.param + '成功',
+	                //   	type: 'success'
+	                // });
 	                this.quertPostList();
               	}
             },
             getCategoryList(){
+            	this.loadingCategory=true;
             	this.$http.get(this.getCategoryListUrl).then(
             		response => {
             			this.categoryItems = response.body;
+            			this.loadingCategory=false;
             			console.log(this.categoryItems);
             		},
             		response => {
@@ -142,6 +147,7 @@
             	this.quertPostList();
             },
             quertPostList(){
+            	this.loadingPost = true;
             	let args = {
             		param: this.param,
 					postType: this.postType,
@@ -149,6 +155,7 @@
             	};
             	this.$http.get(this.getPostListUrl,{params:args}).then(
             		response => {
+            			this.loadingPost = false;
             			this.postItems = response.body;
             			console.log(this.postItems);
             		},
@@ -170,9 +177,11 @@
             },
             //获取热门作者
 		    getPopularAuthor(){
+		    	this.loadingAuthor = true;
 		        this.$http.get(this.getPopularAuthorUrl).then(
 		          	response => {
 		            	this.authorItems = response.body;
+		            	this.loadingAuthor = false;
 		            	console.log(this.authorItems);
 		          	},
 		          	response => {

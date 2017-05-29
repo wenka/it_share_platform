@@ -25,27 +25,33 @@
                     <Button size="small" type="text" @click="showDynamic(me.id)"><Icon type="ios-bell-outline" size="26"></Icon></Button>
                 </el-badge>
             </div>
-             <div style="text-align:center">
-                 <el-popover
-                  ref="editAvatarView"
-                  placement="left"
-                  title="修改头像">
-                  <upload-picture></upload-picture>
-                </el-popover>
+             <div class="card-content" v-loading="loadingMe" element-loading-text="拼命加载中哦^_^">
+                <div style="float:left;padding:5px;margin:0 atuo;width:50%;">
+                   <el-popover ref="editAvatarView" placement="left" title="修改头像">
+                    <upload-picture></upload-picture>
+                   </el-popover>
                  <img src="../../../../static/img/img.jpg" v-popover:editAvatarView class="header-img" @click="editAvatar()">
-                 <p><h3>{{ me.name }}</h3></p>
+                </div>
+                <div style="float:left;padding:5px;margin:0 atuo;width:50%;">
+                  <ul>
+                    <li><h3>{{ me.name }}</h3></li>
+                    <li><h4>积分：{{ me.integral }}</h4></li>
+                  </ul>
+                </div>
              </div>
-             <div style="text-align:center">
-                  <p>我关注的<Button type="text" style="color:green">{{myFocus}}</Button></p>
-                  <p>关注我的<Button type="text" style="color:green">{{myFans}}</Button></p>
+             <div class="card-content" >
+                <div style="float:left;margin:atuo;width:100%;"> 
+                    <p>我关注的<Button type="text" style="color:green">{{myFocus}}</Button></p>
+                    <p>关注我的<Button type="text" style="color:green">{{myFans}}</Button></p>
+                </div>
              </div>
           </Card>
 
-          <Card class="left-card">
+          <Card class="left-card" >
             <div class="card-title">
                 <Button type="ghost" size="small" @click="showCategoryView()">文章类别</Button>
             </div>
-             <div style="text-align:center">
+             <div style="text-align:center"  v-loading="loadingCategory" element-loading-text="拼命加载中哦^_^">
                 <Button v-for="item in categoryItems" @click="clickCategory(item.id)" type="info" style="margin:2px" size="small">{{item.name}}</Button>
              </div>
           </Card>
@@ -54,7 +60,7 @@
             <div class="card-title">
                 <Button type="ghost" size="small" @click="totalChartsView()">统计</Button>
             </div>
-             <div style="text-align:center">
+             <div style="text-align:center" v-loading="loadingTotal" element-loading-text="拼命加载中哦^_^">
                   <p><el-button type="text" @click="lookMorePost('博客')" ><span class="fa fa-list-alt"></span>&nbsp;博客({{ blogCounts }})</el-button></p>
                   <p><el-button type="text" @click="lookMorePost('头条')"><span class="fa fa-newspaper-o"></span>&nbsp;头条({{ headlineCounts }})</el-button></p>
                   <p><el-button type="text" @click="lookMorePost('提问')"><span class="fa fa-question-circle"></span>&nbsp;提问({{ qaCounts }})</el-button></p>
@@ -75,7 +81,9 @@
 
       <Col :xs="24" :sm="14" :md="16" :lg="19">
         <div class="details">
-          <transition name="move" mode="out-in"><router-view></router-view></transition>
+          <transition name="el-zoom-in-center" mode="out-in">
+            <router-view></router-view>
+          </transition>
         </div>
       </Col>
 
@@ -97,6 +105,10 @@
   export default {
     data() {
       return {
+        loadingMe:false,
+        loadingCategory:true,
+        loadingTotal:true,
+        getMeUrl: 'it/user/',
         getUnreadUrl: 'it/userDynamic/unread',
       	getRelationCountsUrl: 'it/userFans/listSize',
         getPostListSizeUrl: 'it/post/getListSize', 
@@ -161,9 +173,11 @@
       },
       //获取类别
       getCategoryItmes(){
+        this.loadingCategory=true;
         this.$http.get(this.getUrl).then(
           response => {
             this.categoryItems = response.body;
+            this.loadingCategory = false;
             console.log(this.categoryItems);
           },
           response => {
@@ -191,6 +205,7 @@
         this.getUnread();
       },
       getPostListSize(postType){
+        this.loadingTotal = true;
         console.log(postType);
         let args = {
             param: "",
@@ -209,6 +224,7 @@
               this.qaCounts = response.body;
               console.log(this.qaCounts);
             }
+            this.loadingTotal = false;
           },
           response => {
             let errorMsg = response.body.developerMessage;
@@ -345,6 +361,12 @@
 
 <style>
 
+  .card-content {
+    width: 90%;
+    height: 60px;
+    text-align: center;
+  }
+
   .card-msg {
     float: right;
   }
@@ -354,8 +376,8 @@
   }
 
   .header-img {
-    width: 100px;
-    height: 100%;
+    width: 50px;
+    height: 50%;
     border-radius: 50%;
   }
 

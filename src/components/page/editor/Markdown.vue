@@ -77,7 +77,8 @@
                         id: "",
                         name: ""
                     },
-                    state: 1
+                    state: 1,
+                    editorType: "markdown"
                 },
                 ruleValidate: {
                     title: [

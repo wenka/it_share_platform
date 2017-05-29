@@ -11,12 +11,20 @@
             <h3>文章内容</h3>
             <div class="visit-number"><el-button type="primary" >访客量：{{ post.viewCount }}</el-button></div>
             <article style="text-indent: 35px;">
-                <h1>{{post.title}}</h1>
+                <h2>{{post.title}}</h2>
                 <!-- <h2>文章副标题</h2> -->
-                <p v-html="post.content"></p>
+                <div v-if="post.editorType == 'markdown'">
+                  <div v-html="compiledMarkdown"></div>
+                </div>
+                <div v-else-if="post.editorType == 'vueEditor'">
+                  <div v-html="post.content"></div>
+                </div>
+                <div v-else>
+                  <div>{{post.content}}</div>
+                </div>
                 <!-- <vue-markdown></vue-markdown> -->
                 <div class="acticle-share">
-                    <el-button type="primary" icon="share" size="mini" class="share-button">  分享</el-button>
+                    <el-button type="info" icon="share" size="mini" class="share-button">  分享</el-button>
                 </div>
             </article>
         </div>
@@ -59,7 +67,7 @@
         <!-- 评论开始 -->
         <div class="ms-doc">
             <h4>所有评论</h4>
-            <article>
+            <article  v-loading="loading1" element-loading-text="拼命加载中哦^_^">
               <div class="comments" v-for="item in post.comments">
                 <div class="comments-tip">
                     <img src="../../../../static/img/img.jpg" class="image">
@@ -72,7 +80,7 @@
                 </div>
                 <div class="btn-area">
                   {{item.createTime}}
-                  <el-button type="success" size="mini" class="reply" @click="reply(item.creatorId,item.author)"><Icon type="reply"></Icon> 回复</el-button>
+                  <el-button type="success" size="mini" class="reply" @click="replyBtn(item.creatorId,item.author)"><Icon type="reply"></Icon> 回复</el-button>
                 </div>
               </div>
 
@@ -89,7 +97,7 @@
                   <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" placeholder="请输入评论内容" v-model="comments"></el-input>
                 </div>
                 <div>
-                  <el-button type="success" size="mini" class="send" @click="send"><Icon type="paper-airplane"></Icon> 发送</el-button>
+                  <el-button type="success" size="mini" :disabled="sendBtn" class="send" @click="send"><Icon type="paper-airplane"></Icon> 发送</el-button>
                 </div>
               </div>
             </article>
@@ -100,18 +108,26 @@
 
 <script>
     import VueMarkdown from 'vue-markdown';
+    import Marked from 'marked'
     export default {
         props:[
             'post'
         ],
         data(){
             return {
+              sendBtn:false,
+              loading1: false,
               saveUserDynamicUrl: 'it/userDynamic/',
               postBaseUrl: 'it/post/',
               active: false,
               tags: [
               ],
-              comments: ""
+              comments: "",
+              comments_: "",
+              reply: {
+                creatorId: "",
+                author: ""
+              }
             }
         },
         created: function(){
@@ -124,8 +140,13 @@
           }
           console.log(this.post);
         },
+        computed: {
+          compiledMarkdown: function () {
+            return Marked(this.post.content==undefined?"**无内容**":this.post.content, { sanitize: true })
+          }
+        },
         components: {
-          VueMarkdown
+          VueMarkdown,Marked
         },
         methods:{
           pay(){
@@ -136,6 +157,7 @@
             }
           },
           send(){
+            this.sendBtn = true;
             let post = {
                 title: this.post.title,
                 postType: "评论",
@@ -145,10 +167,18 @@
                 },
                 state: 1
             };
+            if (this.comments.indexOf(this.comments_) >= 0) {
+              this.sendDynamic(this.reply.creatorId,this.reply.author);
+              console.log("发送动态消息");
+            }else{
+              this.reply = {};
+              this.comments_ = "";
+            };
             this.$http.post(this.postBaseUrl,JSON.stringify(post)).then(
                 response => {
                     this.$message.success('评论成功');
-                    this.$router.go(0);
+                    this.sendBtn = false;
+                    // this.$router.go(0);
                 },
                 response => {
                     let errorMsg = response.body.developerMessage;
@@ -163,9 +193,14 @@
             );
           },
           //回复
-          reply(creatorId,author){
+          replyBtn(creatorId,author){
             this.comments = "@" + author + "：";
-            //保存 所@ 的用户的动态
+            this.comments_ = "@" + author + "：";
+            this.reply.creatorId = creatorId;
+            this.reply.author = author;
+            console.log(this.reply);
+          },
+          sendDynamic(creatorId,author){
             let args = {
               owner:{
                 id: creatorId
@@ -190,7 +225,6 @@
                 }
               }
             );
-
           },
           //通过id读取post
           getPost(postId){
@@ -226,7 +260,7 @@
 
     .share-button {
       float: right;
-      background-color: #F7BA2A;
+      /*background-color: #F7BA2A;*/
       width: 10%;
       height: 100%;
     }
@@ -301,7 +335,7 @@
     }
 
     .comments-area {
-      width: 80%;
+      width: 60%;
       float: left;
     }
 

@@ -6,7 +6,7 @@
             </el-breadcrumb-item>
         </el-breadcrumb>
 		<div class="echarts">
-	    	<IEcharts :option="pie" ></IEcharts>
+	    	<IEcharts :option="pie" v-loading="loading" element-loading-text="拼命加载中哦^_^"></IEcharts>
 	    </div>
 		<div>
 			<v-log-table></v-log-table>
@@ -21,6 +21,7 @@
 	export default {
 		data(){
 			return {
+				loading:true,
 				pie: {
 	                color:["#20a0ff","#13CE66","#F7BA2A"],
 	                title : {
@@ -62,6 +63,7 @@
 		},
 		created: function(){
 			let meId = localStorage.getItem("me-id");
+			this.loading = true;
 		    if (meId) {
 		        // this.$router.push("/personal-space");
 		    }else{
@@ -75,6 +77,7 @@
 			this.pie.series[0].data.push({value:blogCounts,name:'博客'});
 			this.pie.series[0].data.push({value:headlineCounts,name:'头条'});
 			this.pie.series[0].data.push({value:qaCounts,name:'提问'});
+			this.loading = false;
 			console.log(this.pie.series[0]);
 		}
 	}

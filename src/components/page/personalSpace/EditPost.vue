@@ -13,7 +13,7 @@
         <v-vue-editor :post-type="postType"></v-vue-editor>
       </el-tab-pane>
 
-      <el-tab-pane label="MarkDown编辑器" name="md-edit">
+      <el-tab-pane label="MarkDown编辑器" name="md-edit" :disabled="mdShow">
         <v-markdown :post-type="postType"></v-markdown>
       </el-tab-pane>
     </el-tabs>
@@ -27,6 +27,7 @@
   export default{
     data(){
       return {
+        mdShow: false,
         postType: '',
         activeName: 'editor-edit'
       }
@@ -49,6 +50,9 @@
         }
       console.log(this.$route.params);
       this.postType = this.$route.params.type;
+      if (this.postType == '提问') {
+        this.mdShow = true;
+      }
       // console.log(this.postType);
     }
   }

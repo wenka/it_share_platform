@@ -13,30 +13,33 @@
         </el-breadcrumb>
     </div>
 
-		<section id="cd-timeline" class="cd-container">
-			<div class="cd-timeline-block" v-for="(item,index) in postItems" >
-				<div class="cd-timeline-img cd-location">
-					<img src="../../../../static/img/cd-icon-location.svg" alt="index">
-				</div><!-- cd-timeline-img -->
+    <div  v-loading="loading" element-loading-text="拼命加载中哦^_^">
+      
+  		<section id="cd-timeline" class="cd-container">
+  			<div class="cd-timeline-block" v-for="(item,index) in postItems" >
+  				<div class="cd-timeline-img cd-location">
+  					<img src="../../../../static/img/cd-icon-location.svg" alt="index">
+  				</div><!-- cd-timeline-img -->
 
-				<div class="cd-timeline-content">
-          <div class="delete-post">
-            <Poptip
-                confirm
-                title="您确认删除这条内容吗？"
-                @on-ok="ok(item.id,index)"
-                @on-cancel="cancel">
-                <Button>删除</Button>
-            </Poptip>
-          </div>
-					<h2>{{ item.title }}</h2>
-					<p v-html="item.content"></p>
-					<!-- <a class="cd-read-more">阅读更多</a> -->
-          <router-link :to="{ name: 'othersSpace', params: { postId: item.id }}"><a class="cd-read-more">阅读更多</a></router-link>
-					<span class="cd-date">{{ item.createTime }}</span>
-				</div> <!-- cd-timeline-content -->
-			</div> <!-- cd-timeline-block -->
-		</section> <!-- cd-timeline -->
+  				<div class="cd-timeline-content">
+            <div class="delete-post">
+              <Poptip
+                  confirm
+                  title="您确认删除这条内容吗？"
+                  @on-ok="ok(item.id,index)"
+                  @on-cancel="cancel">
+                  <Button>删除</Button>
+              </Poptip>
+            </div>
+  					<h2>{{ item.title }}</h2>
+  					<p v-html="item.content"></p>
+  					<!-- <a class="cd-read-more">阅读更多</a> -->
+            <router-link :to="{ name: 'othersSpace', params: { postId: item.id }}"><a class="cd-read-more">阅读更多</a></router-link>
+  					<span class="cd-date">{{ item.createTime }}</span>
+  				</div> <!-- cd-timeline-content -->
+  			</div> <!-- cd-timeline-block -->
+  		</section> <!-- cd-timeline -->
+    </div>
 	</div>
 </template>
 
@@ -44,6 +47,7 @@
 	export default {
 		data() {
 			return {
+        loading: true,
         deletePostUrl: 'it/post/',
         getPostListUrl: 'it/post/getList',
         postType: "",
@@ -101,6 +105,7 @@
 			},
      //获取文章列表
       getPostList(){
+        this.loading = true;
         let args = {
             param: "",
             postType: this.postType,
@@ -111,6 +116,7 @@
         this.$http.get(this.getPostListUrl,{params:args}).then(
           response => {
               this.postItems = response.body;
+              this.loading = false;
               console.log(this.postItems);
           },
           response => {

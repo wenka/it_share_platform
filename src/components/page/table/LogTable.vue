@@ -7,7 +7,7 @@
               </el-breadcrumb-item>
           </el-breadcrumb>
       </div>
-      <el-table :data="data" border style="width: 100%" row-class-name="row-class">
+      <el-table :data="data" border style="width: 100%" row-class-name="row-class"  v-loading="loading" element-loading-text="拼命加载中哦^_^">
         <el-table-column label="#序号" width="150">
           <template scope="scope">
                 <span style="margin-left: 10px">{{ scope.$index+1 }}</span>
@@ -41,6 +41,7 @@
   export default {
     data() {
       return {
+        loading: true,
         getLogListUrl: "it/log/logList",
         pageSize: 5,
         total:0,
@@ -59,19 +60,22 @@
       },
       // 页面更换
       pageChange(page){
-        this.$message.success("当前页：" + page);
+        // this.$message.success("当前页：" + page);
         this.currentPage = page;
         this.changeData(page,this.pageSize);
       },
       //换页
       changeData(page,pageSize){
+        this.loading = true;
         console.log((page-1)*pageSize + "---" + ((page-1)*pageSize+pageSize));
         let d = this.tableData.slice((page-1)*pageSize,(page-1)*pageSize+pageSize);
         console.log(d);
         this.data = d;
+        this.loading = false;
       },
       //获取数据
       getLogList(){
+        this.loading = true;
         this.$http.get(this.getLogListUrl).then(
             response => {
                 this.tableData = response.body;

@@ -19,7 +19,7 @@
                         </el-form-item>
                         <div class="login-btn">
                             <!-- <el-button-group> -->
-                              <el-button size="small" type="success" @click="submitForm('ruleForm')">登录</el-button>
+                              <el-button :disabled="loginBtn" size="small" type="success" @click="submitForm('ruleForm')">登录</el-button>
                                 <el-popover
                                   ref="a"
                                   placement="top"
@@ -50,7 +50,7 @@
                         <div class="login-btn">
                             <el-button size="small" type="success" disabled>{{ timer }}</el-button>
                             <el-button size="small" type="success" @click="reSendCode()" v-show="sendCodeBtn">重新发送</el-button>
-                            <el-button size="small" type="success" v-show="registerBtn" @click="register('register')">快速注册</el-button>
+                            <el-button size="small" type="success" :disabled="registerBtn" @click="register('register')">快速注册</el-button>
                         </div>
                     </el-form>
                 </Tab-pane>
@@ -71,6 +71,7 @@
     export default {
         data: function(){
             return {
+                loginBtn:false,
                 updatePswd: false,
                 registerUrl: 'it/pub/register',
                 sendMsgUrl: 'it/pub/sendCode/',
@@ -80,7 +81,7 @@
                 sendCodeBtn: false,
                 timer: 60,
                 code: '123456',
-                registerBtn: true,
+                registerBtn: false,
                 ruleForm: {
                     username: '',
                     password: ''
@@ -108,9 +109,8 @@
                         { pattern: /^[a-zA-Z][a-zA-Z0-9_]{3,10}$/,message: '字母开头，字母数字下划线[4-10]'}
                     ],
                     password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
-                        // ,
-                        // { pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$/, message: '必须包含大小写字母和数字的组合[6-10]'}
+                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$/, message: '必须包含大小写字母和数字的组合[6-10]'}
                     ],
                     tel: [
                         { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -146,7 +146,7 @@
                 var args = {
                     "account": this.ruleForm.username,
                     "password": this.ruleForm.password,
-                    "remberme": true
+                    "remberMe": true
                 }
                 const self = this;
                 console.log(JSON.stringify(args));
@@ -161,15 +161,18 @@
             },
             //login
             login(args){
+                this.loginBtn = true;
                 this.$http.get('it/user/login',{params:args}).then(response => {
                     console.log(response.body);
                     localStorage.setItem("me-id",response.body.id);
                     localStorage.setItem("me-name",response.body.name);
                     let router = localStorage.getItem("last-router");
                     localStorage.removeItem("last-router");
+                    this.loginBtn=false;
                     this.$router.push(router==null?"/homePage":router);
                 }, response => {
                     this.$message.error(response.body.developerMessage);
+                    this.loginBtn = false;
                 });    
             },
             register(formName){
@@ -187,7 +190,7 @@
                                     "kindCode": 10,
                                     "tel": this.registerForm.tel
                                 }
-                                this.registerBtn = false;
+                                this.registerBtn = true;
                                 console.log(JSON.stringify(args));
                                 this.$http.post(this.registerUrl,JSON.stringify(args)).then(
                                     response => {
@@ -202,7 +205,7 @@
                                         this.$message.error(response.body.developerMessage);
                                     }
                                 );
-                                this.registerBtn = true;
+                                this.registerBtn = false;
                             }
                         }else{
                             this.$message.error(this.errMsg);

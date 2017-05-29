@@ -56,15 +56,28 @@
       <Row>
         <Col :xs="24" :sm="14" :md="14" :lg="12">
           <div class="main-content-list">
-            <Card :bordered="false" v-for="item in headlinesItems">
+            <!-- <Card :bordered="false" v-for="item in headlinesItems">
+              <Spin v-show="loading1"></Spin>
+              <p slot="title" class="clearfix">
+               最新<br/>
+              </p>
               <a slot="title" class="fa fa-hand-o-right" @click="postInfor(item.id)">&nbsp;&nbsp;{{ item.title }}</a>
               <a v-html="item.content" @click="postInfor(item.id)"></a>
-            </Card>
+            </Card> -->
+            <el-card class="box-card" v-loading="loading1" element-loading-text="拼命加载中哦^_^">
+              <div slot="header" class="clearfix">
+                <span class="right-content-title fa fa-newspaper-o">&nbsp;&nbsp;头条</span>
+                <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
+              </div>
+              <div v-for="item in headlinesItems" class="text item">
+                <a @click="postInfor(item.id)">{{ item.title }}</a>
+              </div>
+            </el-card>
           </div>
         </Col>
         <Col :xs="0" :sm="10" :md="10" :lg="12">
           <div class="main-content-right" >
-            <el-card class="box-card">
+            <el-card class="box-card" v-loading="loading2" element-loading-text="拼命加载中哦^_^">
               <div slot="header" class="clearfix">
                 <span class="right-content-title fa fa-file-text">&nbsp;&nbsp;热门文章</span>
                 <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
@@ -74,18 +87,18 @@
               </div>
             </el-card>
 
-            <el-card class="box-card">
+            <el-card class="box-card" v-loading="loading3" element-loading-text="拼命加载中哦^_^">
               <div slot="header" class="clearfix">
                 <span class="right-content-title fa fa-ambulance">&nbsp;&nbsp;江湖救急</span>
                 <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
               </div>
-              <div v-for="item in qaItems" class="text item">
+              <div v-for="item in qaItems" class="text item" v-loading="loading4">
                 <a @click="postInfor(item.id)">{{ item.title }}</a>
               </div>
             </el-card>
 
             <el-card class="box-card">
-              <div slot="header" class="clearfix">
+              <div slot="header" class="clearfix" v-loading="loading4" element-loading-text="拼命加载中哦^_^">
                 <span class="right-content-title fa fa-user-plus">&nbsp;&nbsp;热门作者</span>
                 <!-- <el-button style="float: right;" type="primary">操作按钮</el-button> -->
               </div>
@@ -117,6 +130,10 @@
 export default {
     data() {
       return {
+        loading1: true,
+        loading2: true,
+        loading3: true,
+        loading4: true,
         getPostUrl: 'it/pub/getPostList',
         getPopularAuthorUrl: 'it/pub/popularAuthor',
         blogItems: [],
@@ -168,6 +185,13 @@ export default {
       },
        //获取文章列表
       getPostList(postType){
+         if (postType == "博客") {
+              this.loading2 = true;
+            }else if(postType == "头条"){
+              this.loading1 = true;
+            }else if(postType == "提问"){
+              this.loading3 = true;
+            }
         console.log(postType);
         let args = {
             param: "",
@@ -177,13 +201,16 @@ export default {
         this.$http.get(this.getPostUrl,{params:args}).then(
           response => {
             if (postType == "博客") {
+              this.loading2 = false;
               this.blogItems = response.body;
               console.log(this.blogItems);
             }else if(postType == "头条"){
+              this.loading1 = false;
               this.headlinesItems = response.body;
               console.log(this.headlinesItems);
             }else if(postType == "提问"){
               this.qaItems = response.body;
+              this.loading3 = false;
               console.log(this.qaItems);
             }
           },
@@ -203,6 +230,7 @@ export default {
       getPopularAuthor(){
         this.$http.get(this.getPopularAuthorUrl).then(
           response => {
+            this.loading4 = false;
             this.authorItems = response.body;
             console.log(this.authorItems);
           },

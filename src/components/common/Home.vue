@@ -3,7 +3,9 @@
         <v-head></v-head>
         <!-- <v-sidebar></v-sidebar> -->
         <div class="content">
-            <transition name="move" mode="out-in"><router-view></router-view></transition>
+            <transition name="el-zoom-in-center" mode="out-in">
+            	<router-view></router-view>
+            </transition>
         </div>
         <!-- <v-foot></v-foot> -->
     </div>
