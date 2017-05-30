@@ -27,8 +27,8 @@
               <el-menu-item index="提问"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
               <el-submenu index="4">
                 <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
-                <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
-                <el-menu-item index="4-2"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
+                <el-menu-item index="文档"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
+                <el-menu-item index="源码"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
               </el-submenu>
             </el-menu>
           </Col>
@@ -41,8 +41,8 @@
                 <el-menu-item index="提问"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
                 <el-submenu index="4">
                   <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
-                  <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
-                  <el-menu-item index="4-2"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
+                  <el-menu-item index="文档"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
+                  <el-menu-item index="源码"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
                 </el-submenu>
               </el-submenu>
             </el-menu>

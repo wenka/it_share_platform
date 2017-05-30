@@ -118,7 +118,7 @@
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' }
                         // ,
-                        // { pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$/, message: '必须包含大小写字母和数字的组合[6-10]'}
+                        // { pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, message: '必须包含大小写字母和数字的组合[6-20]'}
                     ]  
                 },
                 registetRules: {
@@ -128,7 +128,7 @@
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' },
-                        { pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$/, message: '必须包含大小写字母和数字的组合[6-10]'}
+                        { pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, message: '必须包含大小写字母和数字的组合[6-20]'}
                     ],
                     tel: [
                         { required: true, message: '请输入手机号', trigger: 'blur' },

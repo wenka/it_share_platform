@@ -44,8 +44,8 @@
 				              <el-menu-item index="提问"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
 				              <el-submenu index="4">
 				                <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
-				                <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
-				                <el-menu-item index="4-2"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
+				                <el-menu-item index="文档"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
+				                <el-menu-item index="源码"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
 				              </el-submenu>
 				            </el-menu>
 				          </Col>
@@ -58,15 +58,20 @@
 				                <el-menu-item index="提问"><span class="fa fa-question-circle">&nbsp;技术问答</span></el-menu-item>
 				                <el-submenu index="4">
 				                  <template slot="title"><span class="fa fa-cloud-download">&nbsp;资源下载</span></template>
-				                  <el-menu-item index="4-1"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
-				                  <el-menu-item index="4-2"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
+				                  <el-menu-item index="文档"><span class="fa fa-book">&nbsp;使用手册</span></el-menu-item>
+				                  <el-menu-item index="源码"><span class="fa fa-file-archive-o">&nbsp;源码实例</span></el-menu-item>
 				                </el-submenu>
 				              </el-submenu>
 				            </el-menu>
 				          </Col>
 				        </Row>
 					</div>
-					<v-article :post-items="postItems" v-loading="loadingPost" element-loading-text="拼命加载中哦^_^"></v-article>
+					<div v-show="articleView">
+						<v-article :post-items="postItems" v-loading="loadingPost" element-loading-text="拼命加载中哦^_^"></v-article>
+					</div>
+					<div v-show="fileView" >
+						<v-file :file-items="fileItems" v-loading="loadingFile" element-loading-text="拼命加载中哦^_^"></v-file>
+					</div>
 				</div>
 			</Col>
 		</Row>
@@ -75,36 +80,71 @@
 
 <script>
 	import vArticle from '../article/Articles.vue';
+	import vFile from '../article/File.vue';
 	export default{
 		data(){
 			return {
+				type: "article",
 				loadingPost:true,
+				loadingFile:true,
 				loadingCategory:true,
 				loadingAuthor:true,
+				articleView: true,
+				fileView: true,
 				getPopularAuthorUrl: 'it/pub/popularAuthor',
 				getCategoryListUrl: 'it/pub/categoryList',
 				getPostListUrl: 'it/pub/getPostList',
+				getFileListUrl: 'it/attachmentBag/list',
 				param: "",
 				postType: "",
 				categoryIds: "",
 				categoryItems:[],
 				postItems:[],
-				authorItems: []
+				authorItems: [],
+				fileItems: []
 			}
 		},
 		components: {
-			vArticle
+			vArticle,vFile
 		},
 		created() {
 			this.postType = this.$route.params.postType;
 			this.getCategoryList();
-			this.quertPostList();
+			if (this.postType == "文档" || this.postType == "源码") {
+				this.type = "file";
+			}else{
+				this.type = "article";
+			}
+			if (this.type == "article") {
+		        	this.articleView = true;
+		        	this.fileView = false;
+		        	this.quertPostList();
+	            }else if(this.type == "file"){
+	            	this.articleView = false;
+		        	this.fileView = true;
+		        	this.queryFileList();
+	            }
 			this.getPopularAuthor();
 		},
 		methods: {
 			handleSelect(key, keyPath){
 				this.postType = key;
-				this.quertPostList();
+				if (key == "文档" || key == "源码") {
+					console.log("更改页面查询列表类型");
+					this.type = "file";
+				}
+
+				console.log(this.type + "---" + key);
+				if (this.type == "article") {
+		        	this.articleView = true;
+		        	this.fileView = false;
+		        	this.quertPostList();
+	            }else if(this.type == "file"){
+	            	this.articleView = false;
+		        	this.fileView = true;
+		        	this.queryFileList();
+	            }
+				// this.quertPostList();
 			},
 			handleOpen(key, keyPath) {
 	        	console.log(key, keyPath);
@@ -118,7 +158,15 @@
 	                //   	message: '恭喜你，搜索' + this.param + '成功',
 	                //   	type: 'success'
 	                // });
-	                this.quertPostList();
+	                if (this.type == "article") {
+			        	this.articleView = true;
+			        	this.fileView = false;
+			        	this.quertPostList();
+		            }else if(this.type == "file"){
+		            	this.articleView = false;
+			        	this.fileView = true;
+			        	this.queryFileList();
+		            }
               	}
             },
             getCategoryList(){
@@ -144,7 +192,15 @@
             //点击类别事件
             clickCategory(categoryIds){
             	this.categoryIds = categoryIds;
-            	this.quertPostList();
+            	if (this.type == "article") {
+		        	this.articleView = true;
+		        	this.fileView = false;
+		        	this.quertPostList();
+	            }else if(this.type == "file"){
+	            	this.articleView = false;
+		        	this.fileView = true;
+		        	this.queryFileList();
+	            }
             },
             quertPostList(){
             	this.loadingPost = true;
@@ -171,9 +227,42 @@
             		}
             	);
             },
+            queryFileList(){
+            	this.loadingFile = true;
+            	let args = {
+            		param: this.param,
+					fileType: this.postType,
+					categoryIds: this.categoryIds
+            	};
+            	this.$http.get(this.getFileListUrl,{params:args}).then(
+            		response => {
+            			this.loadingFile = false;
+            			this.fileItems = response.body;
+            			console.log(this.fileItems);
+            		},
+            		response => {
+            			let errorMsg = response.body.developerMessage;
+			            this.$message.error(errorMsg);
+			            if (errorMsg.indexOf("未认证") > -1) {
+			                localStorage.removeItem('me-id');
+			                localStorage.removeItem('me-name');
+			                localStorage.setItem("last-router",this.$route.path);
+			                this.$router.push("/login");
+			            }
+            		}
+            	);
+            },
             changePostType(postType){
             	this.postType = postType;
-            	this.quertPostList();
+            	if (this.type == "article") {
+		        	this.articleView = false;
+		        	this.fileView = true;
+		        	this.quertPostList();
+	            }else if(this.type == "file"){
+	            	this.articleView = true;
+		        	this.fileView = false;
+		        	this.queryFileList();
+	            }
             },
             //获取热门作者
 		    getPopularAuthor(){

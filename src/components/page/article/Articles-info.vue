@@ -10,7 +10,7 @@
         <div class="ms-doc">
             <h3>文章内容</h3>
             <div class="visit-number"><el-button type="primary" >访客量：{{ post.viewCount }}</el-button></div>
-            <article style="text-indent: 35px;">
+            <article style="text-indent: 35px;text-align:left">
                 <h2>{{post.title}}</h2>
                 <!-- <h2>文章副标题</h2> -->
                 <div v-if="post.editorType == 'markdown'">
@@ -49,7 +49,7 @@
               <el-button type="danger" @click="pay">赏</el-button>
           </div>
           <div class="pay-image" v-show="active">
-            <div class="pay-weixin">
+           <!--  <div class="pay-weixin">
               <img src="../../../../static/img/weixin.png" alt="无二维码" width="200px"/>
               <p>
                 微信支付
@@ -60,7 +60,12 @@
               <p>
                 支付宝支付
               </p>
-            </div>
+            </div> -->
+            <Input v-model="integral" number>
+                <span slot="prepend">活力：</span>
+                <!-- <span slot="append" >&nbsp;<a :disabled="payBtn" @click="payIntegral()">打赏</a></span> -->
+            </Input>
+            <Button :disabled="payBtn" @click="payIntegral()">打赏</Button>
           </div>
         </div>
         <!-- 打赏结束 -->
@@ -115,6 +120,8 @@
         ],
         data(){
             return {
+              integral: 0,
+              payBtn: false,
               sendBtn:false,
               loading1: false,
               saveUserDynamicUrl: 'it/userDynamic/',
@@ -149,6 +156,26 @@
           VueMarkdown,Marked
         },
         methods:{
+          payIntegral(){
+            this.payBtn = true;
+            this.$http.post("it/user/pay/" + this.post.creatorId + "/" + this.integral).then(
+              response => {
+                 this.$message.success("打赏成功");
+                 this.payBtn = false;
+              },
+              response => {
+                let errorMsg = response.body.developerMessage;
+                this.$message.error(errorMsg);
+                if (errorMsg.indexOf("未认证") > -1) {
+                    localStorage.removeItem('me-id');
+                    localStorage.removeItem('me-name');
+                    localStorage.setItem("last-router",this.$route.path);
+                    this.$router.push("/login");
+                }
+                 this.payBtn = false;
+              }
+            );
+          },
           pay(){
             if (this.active) {
               this.active = false;
@@ -165,7 +192,8 @@
                 parent:{
                     id: this.post.id
                 },
-                state: 1
+                state: 1,
+                editorType: "textarea"
             };
             if (this.comments.indexOf(this.comments_) >= 0) {
               this.sendDynamic(this.reply.creatorId,this.reply.author);

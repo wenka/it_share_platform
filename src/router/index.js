@@ -17,7 +17,10 @@ export default new Router({
                     path: '/',
                     component: resolve => require(['../components/page/Readme.vue'], resolve)
                 },
-                
+                {
+                    path: '/file',
+                    component: resolve => require(['../components/page/article/File.vue'], resolve)
+                },
                 {
                     path: '/basecharts',
                     component: resolve => require(['../components/page/BaseCharts.vue'], resolve)   // vue-echarts-v3组件
