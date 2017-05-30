@@ -1,14 +1,14 @@
 <template>
     <div>
-    <div class="crumbs">
-        <el-breadcrumb separator="/">
-            <el-breadcrumb-item>
-                <el-button class="fa fa-bell-o" type="text" readobly>&nbsp;&nbsp;我的动态</el-button>
-            </el-breadcrumb-item>
-        </el-breadcrumb>
-    </div>
+      <div class="crumbs">
+          <el-breadcrumb separator="/">
+              <el-breadcrumb-item>
+                  <el-button class="fa fa-bell-o" type="text" readobly>&nbsp;&nbsp;我的动态</el-button>
+              </el-breadcrumb-item>
+          </el-breadcrumb>
+      </div>
       <el-table :data="data" border style="width: 100%" row-class-name="row-class" v-loading="loading" element-loading-text="拼命加载中哦^_^">
-        <el-table-column label="#序号" width="150">
+        <el-table-column label="#序号" width="150" align="center">
           <template scope="scope">
             <el-badge is-dot class="item" v-if="scope.row.state == 0">
                 <!-- <el-button size="small">评论</el-button> -->
@@ -20,13 +20,13 @@
             </el-badge>
           </template>
         </el-table-column>
-        <el-table-column label="日期" width="250">
+        <el-table-column label="日期" width="250" align="center">
           <template scope="scope">
             <el-icon name="time"></el-icon>
             <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-         <el-table-column label="消息" width="300" show-overflow-tooltip>
+         <el-table-column label="消息" width="300" show-overflow-tooltip align="center">
           <template scope="scope">
             <el-popover trigger="hover" placement="top">
                 <p>{{ scope.row.msg }}</p>
@@ -37,7 +37,7 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template scope="scope">
             <el-button size="small" v-if="scope.row.state == 0"  @click="handleEdit(scope.$index, scope.row)">标记已读</el-button>
             <el-button size="small" v-else disabled @click="handleEdit(scope.$index, scope.row)">标记已读</el-button>

@@ -198,12 +198,12 @@
 			foucsBtnClick(userId){
 				console.log(userId);
 				if (this.foucsBtn.text == "加关注") {
-					this.foucsBtn.text = "取消关注";
 					let args = {
 						id:this.userId
 					}
 					this.$http.post(this.UserFansUrl,JSON.stringify(args)).then(
 						response => {
+							this.foucsBtn.text = "取消关注";
 							this.$Message.success("关注成功");
 						},
 						response => {
@@ -218,8 +218,22 @@
 						}
 					);
 				}else{
-					this.foucsBtn.text = "加关注";
-					this.$Message.success("取消关注成功");
+					this.$http.delete(this.UserFansUrl+this.userId).then(
+						response => {
+							this.foucsBtn.text = "加关注";
+							this.$Message.success("取消关注成功");
+						},
+						response => {
+							let errorMsg = response.body.developerMessage;
+				            this.$message.error(errorMsg);
+				            if (errorMsg.indexOf("未认证") > -1) {
+				            	localStorage.removeItem('me-id');
+	                        	localStorage.removeItem('me-name');
+				            	localStorage.setItem("last-router",this.$route.path);
+				            	this.$router.push("/login");
+				            }
+						}
+					);
 				}
 			},
 			//查看多
