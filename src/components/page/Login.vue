@@ -62,7 +62,8 @@
           cancel-text="" >
           <v-update-pswd v-on:user-changes="listenUserChange"></v-update-pswd>
         </Modal> -->
-
+        </waterfall-slot>
+        </waterfall>
     </div>
 </template>
 
@@ -71,6 +72,23 @@
     export default {
         data: function(){
             return {
+                items: [
+                    {
+                        width:1,
+                        height:1,
+                        id:1
+                    },
+                    {
+                        width:1,
+                        height:1,
+                        id:1
+                    },
+                    {
+                        width:1,
+                        height:1,
+                        id:1
+                    }
+                ],
                 loginBtn:false,
                 updatePswd: false,
                 registerUrl: 'it/pub/register',

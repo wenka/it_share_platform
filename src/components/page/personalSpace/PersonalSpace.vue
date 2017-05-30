@@ -25,26 +25,29 @@
                     <Button size="small" type="text" @click="showDynamic(me.id)"><Icon type="ios-bell-outline" size="26"></Icon></Button>
                 </el-badge>
             </div>
-             <div class="card-content" v-loading="loadingMe" element-loading-text="拼命加载中哦^_^">
-                <div style="float:left;padding:5px;margin:0 atuo;width:50%;">
-                   <el-popover ref="editAvatarView" placement="left" title="修改头像">
+             <div v-loading="loadingMe" element-loading-text="拼命加载中哦^_^">
+                <div class="card-content">
+                   <!-- <el-popover ref="editAvatarView" placement="left" title="修改头像">
                     <upload-picture></upload-picture>
-                   </el-popover>
-                 <img src="../../../../static/img/img.jpg" v-popover:editAvatarView class="header-img" @click="editAvatar()">
+                   </el-popover> -->
+                   <!-- v-popover:editAvatarView  -->
+                 <img src="../../../../static/img/img.jpg" class="header-img" @click="editAvatar()">
                 </div>
-                <div style="float:left;padding:5px;margin:0 atuo;width:50%;">
-                  <ul>
-                    <li><h3>{{ me.name }}</h3></li>
-                    <li><h4>积分：{{ me.integral }}</h4></li>
+                <div class="card-content">
+                  <ul style="text-align:left;">
+                    <li><h4>姓&nbsp;&nbsp;&nbsp;&nbsp;名：{{ me.name }}</h4></li>
+                    <li><h4>活&nbsp;&nbsp;&nbsp;&nbsp;力：{{ me.integral }}</h4></li>
+                    <li><h4>关&nbsp;&nbsp;&nbsp;&nbsp;注：<a @click="getRelationList('myFocus')">{{myFocus}}</a></h4></li>
+                    <li><h4>粉&nbsp;&nbsp;&nbsp;&nbsp;丝：<a @click="getRelationList('myFans')">{{myFans}}</a></h4></li>
                   </ul>
                 </div>
              </div>
-             <div class="card-content" >
+             <!-- <div class="card-content" >
                 <div style="float:left;margin:atuo;width:100%;"> 
                     <p>我关注的<Button type="text" style="color:green">{{myFocus}}</Button></p>
                     <p>关注我的<Button type="text" style="color:green">{{myFans}}</Button></p>
                 </div>
-             </div>
+             </div> -->
           </Card>
 
           <Card class="left-card" >
@@ -96,15 +99,28 @@
           @on-cancel="cancel">
           <v-edit-category></v-edit-category>
     </Modal>
+    <Modal
+          width="auto"
+          style="text-align:center"
+          v-model="vieRelation"
+          @on-ok="ok"
+          @on-cancel="cancel">
+          <div slot="footer">
+            
+          </div>
+          <v-user-relation-table :relation-direction="relationDirection"></v-user-relation-table>
+    </Modal>
   </div>
 </template>
 
 <script>
   import uploadPicture from '../upload/UploadPicture.vue';
   import vEditCategory from './EditCategory.vue';
+  import vUserRelationTable from '../table/UserRelationTable.vue';
   export default {
     data() {
       return {
+        vieRelation: false,
         loadingMe:false,
         loadingCategory:true,
         loadingTotal:true,
@@ -128,11 +144,12 @@
         //查询文章列表的参数
         categoryIds: "",
         postType: "",
-        unread: 0
+        unread: 0,
+        relationDirection: ''
       };
     },
     components: {
-      uploadPicture,vEditCategory
+      uploadPicture,vEditCategory,vUserRelationTable
     },
     created: function(){
       let meId = localStorage.getItem("me-id");
@@ -145,6 +162,28 @@
       this.flushPage();
     },
     methods: {
+      getRelationList(direction){
+        this.relationDirection = direction;
+        this.vieRelation = true;
+      },
+      getMe(){
+        console.log("个人");
+        this.$http.get(this.getMeUrl + this.me.id).then(
+          response => {
+            this.me = response.body;
+            console.log(this.me);
+          },
+          response => {
+            let errorMsg = response.body.developerMessage;
+            this.$message.error(errorMsg);
+            if (errorMsg.indexOf("未认证") > -1) {
+                localStorage.removeItem('me-id');
+                localStorage.removeItem('me-name');
+                localStorage.setItem("last-router",this.$route.path);
+                this.$router.push("/login");
+            }
+          });
+      },
       selfdetails(userId){
         console.log(userId);
         let args = {
@@ -203,6 +242,7 @@
         this.getRelationCounts("myFans");
         this.getRelationCounts("myFocus");
         this.getUnread();
+        this.getMe();
       },
       getPostListSize(postType){
         this.loadingTotal = true;
@@ -362,9 +402,9 @@
 <style>
 
   .card-content {
-    width: 90%;
-    height: 60px;
+    width: 70%;
     text-align: center;
+    margin: 0 auto;
   }
 
   .card-msg {
@@ -376,9 +416,10 @@
   }
 
   .header-img {
-    width: 50px;
-    height: 50%;
+    width: 40%;
+    height: 40%;
     border-radius: 50%;
+    margin: 0 auto;
   }
 
   .header-img:hover {
@@ -396,7 +437,7 @@
 
   .left-card {
     width:90%;
-    margin: 10px;
+    margin: 5px;
   }
 
   .content {
